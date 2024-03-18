@@ -6,7 +6,7 @@ import { useState } from "react";
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
   // If used on the FRONTEND pass your 'clientId'
   const sdk = new ThirdwebSDK("sepolia", {
-    clientId: "bb5ebb137e929d7afb1ba0bac0212be6",
+    clientId: "0dc765ea5ff5b69c186af185d90ac825",
   });
   const contract = await sdk.getContract("0xFA101ec963573964f3c5D34a899842E34409C1c8");
   
