@@ -58,13 +58,20 @@
   margin-top: 2rem;
   margin-bottom: 2rem;
   line-height: 1.5;
-  font-size: 1.5rem;
+  font-size: 1.0rem;
+}
+
+.codeDisabled {
+  background: #555;
+  border-radius: 5px;
+  padding: 0.15em;
+  font-size: 1.1rem;
 }
 
 .code {
-  background: #555;
+  background: #18db3f;
   border-radius: 5px;
-  padding: 0.5em;
+  padding: 0.15em;
   font-size: 1.1rem;
 }
 
