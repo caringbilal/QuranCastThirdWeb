@@ -69,7 +69,7 @@
 }
 
 .code {
-  background: #18db3f;
+  background: #09a437;
   border-radius: 5px;
   padding: 0.15em;
   font-size: 1.1rem;
@@ -133,10 +133,12 @@
   .header {
     margin-left: 0;
   }
+
   .grid {
     width: 100%;
     flex-direction: column;
   }
+
   .title {
     font-size: 3rem;
     line-height: 1.15;
@@ -147,6 +149,7 @@
 .footer {
   border-color: #222;
 }
+
 .logo img {
   filter: invert(1);
 }

@@ -1,0 +1,23 @@
+===============below attempt didn’t work for the cloned source code above==================
+
+1. Installed Git + NPM from their websites
+2. Open Visual Studio - checked both npm & node versions then went inside my folder using this command cd "/Users/bilal/Desktop/QCST ThirdWeb/SmartContracts V1"
+3. git clone https://github.com/thirdweb-example/token-drop
+4. cd token-drop + brought in or installed thirdweb repo by this command - npx thirdweb@latest
+5. Run command - npm install next
+6. npm run dev
+
+===============2nd attempt for simple source code based on Youtube tutorial==================
+1. Open Visual Studio + Terminal + Run command = npx thirdweb@latest create
+2. Selected App from Menu + named it QuranCast + Selected Next.js + Selected Javascript
+3. Ran npm run dev - localhost started successfully
+
+===============Commit on GitHub via commandline===================
+git add .
+git commit -m "Your commit message"
+git push
+
+===============Fetching from GitHub via commandline===================
+git fetch origin
+git merge origin/main
+git status //for reviewing changes 
