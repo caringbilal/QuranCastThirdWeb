@@ -20,4 +20,4 @@ git push
 ===============Fetching from GitHub via commandline===================
 git fetch origin
 git merge origin/main
-git status //for reviewing changes 
+git status //for reviewing changes

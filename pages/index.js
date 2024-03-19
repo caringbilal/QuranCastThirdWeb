@@ -31,14 +31,14 @@ export default function Home() {
   const { mutate: claimTokensARB, isLoading: isLoadingARB } = useClaimToken(tokenDropARB);
 
   //The Below is the Optimism Contract
-  const tokenDropOP = useContract("0x483815344c8B0701bFCEB765050a8a10896Ff874", "token-drop").contract;
+  const tokenDropOP = useContract("0xE7b6390790FBCc45161Ba5E8aFa68f97EaaF2188", "token-drop").contract; //2nd contract also deployed on Sepolia TestNet as other test nets were not working
   //get the token supply from the contract - the tokens which have been sold till now
   const { data: tokenSupplyOP } = useTokenSupply(tokenDropOP);
   //get the token Balance of the connected User Wallet from the contract
   const { data: tokenBalanceOP } = useTokenBalance(tokenDropOP, address);
   //this mutate fucntion will actually execute blockchain transaction
   const { mutate: claimTokensOP, isLoading: isLoadingOP } = useClaimToken(tokenDropOP);
-  
+
   //Setting up the errorMessage and setErrorMessage variables here
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -66,6 +66,17 @@ export default function Home() {
           </h1>
 
           <p className={styles.description}>
+            <h4 className="gradientText1">Official Links:{' '}
+              <a href="https://qurancast.co/" target="_blank" rel="noopener noreferrer">
+                Website
+              </a> |{' '}
+              <a href="https://discord.gg/D8UA5n3Czu" target="_blank" rel="noopener noreferrer">
+                Discord
+              </a> |{' '}
+              <a href="https://twitter.com/quran_cast" target="_blank" rel="noopener noreferrer">
+                Twitter
+              </a>
+            </h4> <br />
             Total Stoken Supply: 7 Billion <br />
             Tokens Sold to Community: 30% of Total Supply - 2.1 Billion <br />
             Current Pre-Sale will have 3 Tiers with increasing price, i.e.<br /><br />
@@ -106,14 +117,16 @@ export default function Home() {
               <h2 className={styles.gradientText1}>Mint on Arbitrum ➜</h2>
               <p style={{ fontSize: '12px' }}>Contract: 0xFA101ec963573964f3c5D34a899842E34409C1c8</p>
               <p><b> 1st Tier Tokens for Sale on Arbitrum: 105,000,000 </b></p>
-              <p>Total Tokens Sold Till now on Arbitrum: {tokenSupplyARB?.displayValue} {tokenSupplyARB?.symbol}</p>
+              <p>Total Tokens Sold on Arbitrum: {tokenSupplyARB?.displayValue} {tokenSupplyARB?.symbol}</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
               <div className="progress-container">
-                  <div
-                    className="progress-bar"
-                    style={{ width: `${percentageSold}%` }}>
-                  </div>
-                </div>
+                <div
+                  className="progress-bar"
+                  style={{ width: `${percentageSold}%` }}>
+                  { /* Here I will try to display the percentage of progress on top of my progress bar */}
+                  <div className="progress-label" style={{ color: 'black' }}>{percentageSold.toFixed(2)}%</div> {/* Display percentage label */}
+                </div> {/*I had to move the Dive down to make the progress label inside the Bar*/}
+              </div><br />
               {/*Percentage Slider Bar end here*/}
               <p>Your Token Balance: {tokenBalanceARB?.displayValue} {tokenBalanceARB?.symbol}</p>
               <h1>Mint on Arbitrum</h1>
@@ -123,7 +136,7 @@ export default function Home() {
                 onChange={e => setAmountARB(e.target.value)}
                 className="nice-input"
               />
-            <button className="nice-button"
+              <button className="nice-button"
                 onClick={() => claimTokensARB(
                   { amount: amountARB, to: address },
                   { onSuccess: () => setAmountARB('0') },
@@ -148,14 +161,14 @@ export default function Home() {
               <h2 className={styles.gradientText2}>Mint on Optimism ➜</h2>
               <p style={{ fontSize: '12px' }}>Contract: 0xA37c135A5C3D57504a1c5739459eFef8f1d47A4f</p>
               <p><b> 1st Tier Tokens for Sale on Optimism: 105,000 </b></p>
-              <p>Total Tokens Sold Till now on Optimism: {tokenSupplyOP?.displayValue} {tokenSupplyOP?.symbol}</p>
+              <p>Total Tokens Sold on Optimism: {tokenSupplyOP?.displayValue} {tokenSupplyOP?.symbol}</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
               <div className="progress-container">
-                  <div
-                    className="progress-bar"
-                    style={{ width: `${percentageSold}%` }}>
-                  </div>
+                <div
+                  className="progress-bar"
+                  style={{ width: `${percentageSold}%` }}>
                 </div>
+              </div><br />
               {/*Percentage Slider Bar end here*/}
               <p>Your Token Balance: {tokenBalanceOP?.displayValue} {tokenBalanceOP?.symbol}</p>
               <h1>Mint on Optimism</h1>
@@ -166,24 +179,24 @@ export default function Home() {
                 className="nice-input"
               />
               {/*Revised Button code with help of chatGPT*/}
-                    <button 
-                      className="nice-button" 
-                      onClick={async () => {
-                        try {
-                          await claimTokensOP(
-                            { amount: amountOP, to: address },
-                            { onSuccess: () => setAmountOP('0') },
-                            { onError: () => setErrorMessage('An error occurred.') }
-                          );
-                        } catch (error) {
-                          console.error('Error while minting on Optimism:', error);
-                          setErrorMessage('An error occurred while minting on Optimism.');
-                        }
-                      }}
-                      disabled={isLoadingOP}
-                    >
-                      Mint {amountOP} {tokenBalanceOP?.symbol}
-                    </button>
+              <button
+                className="nice-button"
+                onClick={async () => {
+                  try {
+                    await claimTokensOP(
+                      { amount: amountOP, to: address },
+                      { onSuccess: () => setAmountOP('0') },
+                      { onError: () => setErrorMessage('An error occurred.') }
+                    );
+                  } catch (error) {
+                    console.error('Error while minting on Optimism:', error);
+                    setErrorMessage('An error occurred while minting on Optimism.');
+                  }
+                }}
+                disabled={isLoadingOP}
+              >
+                Mint {amountOP} {tokenBalanceOP?.symbol}
+              </button>
             </div>
           </div>
 
@@ -199,14 +212,14 @@ export default function Home() {
               <h2 className={styles.gradientText3}>Mint on Base ➜</h2>
               <p style={{ fontSize: '12px' }}>Contract: 0xA37c135A5C3D57504a1c5739459eFef8f1d47A4f</p>
               <p><b> 1st Tier Tokens for Sale on Base: 105,000,000 </b></p>
-              <p>Total Tokens Sold Till now on Base: {tokenSupplyARB?.displayValue} {tokenSupplyARB?.symbol}</p>
+              <p>Total Tokens Sold on Base: {tokenSupplyARB?.displayValue} {tokenSupplyARB?.symbol}</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
               <div className="progress-container">
-                  <div
-                    className="progress-bar"
-                    style={{ width: `${percentageSold}%` }}>
-                  </div>
+                <div
+                  className="progress-bar"
+                  style={{ width: `${percentageSold}%` }}>
                 </div>
+              </div><br />
               {/*Percentage Slider Bar end here*/}
               <p>Your Token Balance: {tokenBalanceARB?.displayValue} {tokenBalanceARB?.symbol}</p>
               <h1>Mint on Base</h1>
@@ -216,7 +229,7 @@ export default function Home() {
                 onChange={e => setAmountARB(e.target.value)}
                 className="nice-input"
               />
-            <button className="nice-button"
+              <button className="nice-button"
                 onClick={() => claimTokensARB(
                   { amount: amountARB, to: address },
                   { onSuccess: () => setAmountARB('0') },
@@ -241,14 +254,14 @@ export default function Home() {
               <h2 className={styles.gradientText3}>Mint on Binance Smart Chain ➜</h2>
               <p style={{ fontSize: '12px' }}>Contract: 0xA37c135A5C3D57504a1c5739459eFef8f1d47A4f</p>
               <p><b> 1st Tier Tokens for Sale on BSC: 105,000,000 </b></p>
-              <p>Total Tokens Sold Till now on BSC: {tokenSupplyARB?.displayValue} {tokenSupplyARB?.symbol}</p>
+              <p>Total Tokens Sold on BSC: {tokenSupplyARB?.displayValue} {tokenSupplyARB?.symbol}</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
               <div className="progress-container">
-                  <div
-                    className="progress-bar"
-                    style={{ width: `${percentageSold}%` }}>
-                  </div>
+                <div
+                  className="progress-bar"
+                  style={{ width: `${percentageSold}%` }}>
                 </div>
+              </div><br />
               {/*Percentage Slider Bar end here*/}
               <p>Your Token Balance: {tokenBalanceARB?.displayValue} {tokenBalanceARB?.symbol}</p>
               <h1>Mint on BSC</h1>
@@ -258,7 +271,7 @@ export default function Home() {
                 onChange={e => setAmountARB(e.target.value)}
                 className="nice-input"
               />
-            <button className="nice-button"
+              <button className="nice-button"
                 onClick={() => claimTokensARB(
                   { amount: amountARB, to: address },
                   { onSuccess: () => setAmountARB('0') },
@@ -274,73 +287,8 @@ export default function Home() {
         </div> { /* Ending of the Div for Tabs based on Grid Layout */}
 
 
-        { /* Below section for URLs to Website, YouTube & Discord */}
-        <div className={styles.grid}>
-          <a
-            href="https://qurancast.co/"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              src="/images/portal-preview.png"
-              alt="Placeholder preview of starter"
-              width={300}
-              height={200}
-            />
-            <div className={styles.cardText}>
-              <h2 className={styles.gradientText1}>Official Website ➜</h2>
-              <p>
-                Project details and offical app download that will help you know more about the Live project.
-              </p>
-            </div>
-          </a>
-
-          {/* Below is a section for joining our YouTube Channel */}
-          <a
-            href="https://thirdweb.com/dashboard"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              src="/images/dashboard-preview.png"
-              alt="Placeholder preview of starter"
-              width={300}
-              height={200}
-            />
-            <div className={styles.cardText}>
-              <h2 className={styles.gradientText2}>Official YouTube ➜</h2>
-              <p>
-                Subscribe to our YouTube channel to know about our latest updates regarding new features within our app enabling users to get rewarded.
-              </p>
-            </div>
-          </a>
-
-          { /*Below is the link for joining our Discord*/}
-          <a
-            href="https://discord.gg/D8UA5n3Czu"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              src="/images/templates-preview.png"
-              alt="Placeholder preview of templates"
-              width={300}
-              height={200}
-            />
-            <div className={styles.cardText}>
-              <h2 className={styles.gradientText3}>Official Discord ➜</h2>
-              <p>
-                Join our Community. Be an active member in order to get some exciting rewards.
-              </p>
-            </div>
-          </a>
-        </div> { /* Ending of the Div for Tabs based on Grid Layout */}
-
       </div>
-    </main>
+    </main >
 
   );
 }

@@ -154,3 +154,32 @@
   filter: invert(1);
 }
 
+/*Added Styling for showing a nide percentage slider for overall token sale*/
+.progress-container {
+  position: relative;
+  width: 100%;
+  background-color: #f0f0f0;
+  height: 20px;
+  border-radius: 10px;
+}
+
+/*Style for the Progress Bar Label*/
+.progress-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgb(222, 33, 33);
+  font-weight: bold;
+  /* Add bold font weight for better visibility */
+  z-index: 1;
+}
+
+/* Updated Styling for the progress bar */
+.progress-bar {
+  height: 100%;
+  background-color: #4caf50;
+  border-radius: 10px;
+  width: var(--progress, 0%);
+  transition: width 0.5s ease;
+}

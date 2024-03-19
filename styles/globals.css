@@ -23,7 +23,8 @@ body {
 
 /*Added Styling for a nice button for minting*/
 .nice-button {
-  background-color: #4CAF50; /* Green */
+  background-color: #4CAF50;
+  /* Green */
   border: none;
   color: white;
   padding: 11px 32px;
@@ -38,11 +39,13 @@ body {
 }
 
 .nice-button:hover {
-  background-color: #45a049; /* Darker Green */
+  background-color: #45a049;
+  /* Darker Green */
 }
 
 .nice-button-disconnect {
-  background-color: #af4c8e; /* Purple */
+  background-color: #af4c8e;
+  /* Purple */
   border: none;
   color: white;
   padding: 11px 32px;
@@ -57,20 +60,25 @@ body {
 }
 
 .nice-button-disconnect:hover {
-  background-color: #af4c8e; /* Purple */
+  background-color: #af4c8e;
+  /* Purple */
 }
 
 /* Additional styles for disabled state */
 .nice-button[disabled] {
-  background-color: #555; /* Green */
-  cursor: not-allowed; /* Change cursor to indicate disabled state */
+  background-color: #555;
+  /* Green */
+  cursor: not-allowed;
+  /* Change cursor to indicate disabled state */
 }
 
 /*Added Styling for a nice input bar for entering the token amount*/
 .nice-input {
-  background-color: #f2f2f2; /* Light grey */
+  background-color: #f2f2f2;
+  /* Light grey */
   border: none;
-  color: #333; /* Dark grey */
+  color: #333;
+  /* Dark grey */
   padding: 10px 15px;
   font-size: 16px;
   border-radius: 10px;
@@ -80,7 +88,8 @@ body {
 
 .nice-input:focus {
   outline: none;
-  background-color: #e0e0e0; /* Lighter grey on focus */
+  background-color: #e0e0e0;
+  /* Lighter grey on focus */
 }
 
 /*Added Styling for showing a nide percentage slider for overall token sale*/
@@ -89,11 +98,13 @@ body {
   background-color: #f0f0f0;
   height: 20px;
   border-radius: 10px;
+  position: relative;
 }
 
 .progress-bar {
   height: 100%;
-  background-color: #4caf50; /* Green */
+  background-color: #4caf50;
+  /* Green */
   border-radius: 10px;
   width: var(--progress, 0%);
   transition: width 0.5s ease;
