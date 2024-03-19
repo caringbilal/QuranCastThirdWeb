@@ -111,7 +111,7 @@
 .card:focus,
 .card:active {
   background-color: #272c34;
-  opacity: 80%;
+  opacity: 100%;
 }
 
 .card h2 {
@@ -153,3 +153,4 @@
 .logo img {
   filter: invert(1);
 }
+

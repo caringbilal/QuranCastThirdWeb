@@ -21,11 +21,12 @@ body {
   background: #070707;
 }
 
+/*Added Styling for a nice button for minting*/
 .nice-button {
   background-color: #4CAF50; /* Green */
   border: none;
   color: white;
-  padding: 15px 32px;
+  padding: 11px 32px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -44,7 +45,7 @@ body {
   background-color: #af4c8e; /* Purple */
   border: none;
   color: white;
-  padding: 15px 32px;
+  padding: 11px 32px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -57,4 +58,43 @@ body {
 
 .nice-button-disconnect:hover {
   background-color: #af4c8e; /* Purple */
+}
+
+/* Additional styles for disabled state */
+.nice-button[disabled] {
+  background-color: #555; /* Green */
+  cursor: not-allowed; /* Change cursor to indicate disabled state */
+}
+
+/*Added Styling for a nice input bar for entering the token amount*/
+.nice-input {
+  background-color: #f2f2f2; /* Light grey */
+  border: none;
+  color: #333; /* Dark grey */
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 10px;
+  margin: 4px 2px;
+  transition: background-color 0.3s ease;
+}
+
+.nice-input:focus {
+  outline: none;
+  background-color: #e0e0e0; /* Lighter grey on focus */
+}
+
+/*Added Styling for showing a nide percentage slider for overall token sale*/
+.progress-container {
+  width: 100%;
+  background-color: #f0f0f0;
+  height: 20px;
+  border-radius: 10px;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #4caf50; /* Green */
+  border-radius: 10px;
+  width: var(--progress, 0%);
+  transition: width 0.5s ease;
 }

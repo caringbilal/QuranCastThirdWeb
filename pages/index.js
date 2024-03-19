@@ -8,26 +8,44 @@ import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 const sdk = new ThirdwebSDK("sepolia", {
   clientId: "0dc765ea5ff5b69c186af185d90ac825",
 });
-const contract = await sdk.getContract("0xFA101ec963573964f3c5D34a899842E34409C1c8");
+//const contract = await sdk.getContract("0xFA101ec963573964f3c5D34a899842E34409C1c8"); //this line doesn't affect anything - important part was adding of client ID above
 
 export default function Home() {
 
   //setting state for the claiming process
-  const [amount, setAmount] = useState("");
+  //Amount variable for Arbitrum Section
+  const [amountARB, setAmountARB] = useState(0); //adding 0 here shows 0 in input field + I have to add 3 more Amounts for other Chains Input Sliders
+  //Amount variable for Optimism Section
+  const [amountOP, setAmountOP] = useState(0); //adding 0 here shows 0 in input field + I have to add 3 more Amounts for other Chains Input Sliders
 
   //adding below constants as per youtube tutorial
   const address = useAddress(); //address of the connected user wallet
 
-  //this is to store my created contract address from ThirdWeb + Trying to use the new function of useContract
-  const tokenDrop = useContract("0xFA101ec963573964f3c5D34a899842E34409C1c8", "token-drop").contract;
-
-  //get the token supply from the contract
-  const { data: tokenSupply } = useTokenSupply(tokenDrop);
+  //this is to store my created contract address from ThirdWeb = The Below is the Arbitrum Contract
+  const tokenDropARB = useContract("0xFA101ec963573964f3c5D34a899842E34409C1c8", "token-drop").contract;
+  //get the token supply from the contract - the tokens which have been sold till now
+  const { data: tokenSupplyARB } = useTokenSupply(tokenDropARB);
   //get the token Balance of the connected User Wallet from the contract
-  const { data: tokenBalance } = useTokenBalance(tokenDrop, address);
-
+  const { data: tokenBalanceARB } = useTokenBalance(tokenDropARB, address);
   //this mutate fucntion will actually execute blockchain transaction
-  const { mutate: claimTokens, isLoading } = useClaimToken(tokenDrop);
+  const { mutate: claimTokensARB, isLoading: isLoadingARB } = useClaimToken(tokenDropARB);
+
+  //The Below is the Optimism Contract
+  const tokenDropOP = useContract("0x483815344c8B0701bFCEB765050a8a10896Ff874", "token-drop").contract;
+  //get the token supply from the contract - the tokens which have been sold till now
+  const { data: tokenSupplyOP } = useTokenSupply(tokenDropOP);
+  //get the token Balance of the connected User Wallet from the contract
+  const { data: tokenBalanceOP } = useTokenBalance(tokenDropOP, address);
+  //this mutate fucntion will actually execute blockchain transaction
+  const { mutate: claimTokensOP, isLoading: isLoadingOP } = useClaimToken(tokenDropOP);
+  
+  //Setting up the errorMessage and setErrorMessage variables here
+  const [errorMessage, setErrorMessage] = useState('');
+
+  //Setting up Sold Tokens Slider for Arbitrun Chain for 1st Tier - dummy data for now 19-MAR-24
+  const totalTokensForSaleARBTier1 = 135;
+  const tokensSold = tokenSupplyARB?.displayValue;
+  const percentageSold = (tokensSold / totalTokensForSaleARBTier1) * 100;
 
   return (
 
@@ -52,112 +70,161 @@ export default function Home() {
             Tokens Sold to Community: 30% of Total Supply - 2.1 Billion <br />
             Current Pre-Sale will have 3 Tiers with increasing price, i.e.<br /><br />
 
-            {" "}<code className={styles.code}>1st Tier - In Progress:</code><br />
+            {" "}<code className={styles.code}>1st Tier - In Progress:</code>
             20% of 2.1B tokens = 420M sold at $0.00238 to raise $1M. 1.68B tokens remain.<br />
             <br />
-            {" "}<code className={styles.codeDisabled}>2nd Tier:</code><br />
+            {" "}<code className={styles.codeDisabled}>2nd Tier:</code>
             30% of 2.1B tokens = 630M sold at $0.00317 to raise $2M. 1.05B tokens remain.<br />
             <br />
-            {" "}<code className={styles.codeDisabled}>3rd Tier:</code><br />
+            {" "}<code className={styles.codeDisabled}>3rd Tier:</code>
             50% of 2.1B tokens = 1.05B sold at $0.00381 to raise $4M.<br />
           </p>
 
-          {/* Below section for connecting Wallet + Minting on Arbitrum Chain */}
+          {/* Trying to add Tabs here */}
+
+          {/* Below section for connecting Wallet */}
           <div className={styles.connect}>
             <ConnectWallet />
-
             <p>Your address: {address}</p>
-            <p><Image src="/images/Arbitrum.png" width={21.6} height={24.3} />
-              <b> 1st Tier Tokens for Sale on Arbitrum: 105,000,000 </b>
-              <Image src="/images/Arbitrum.png" width={21.6} height={24.3} /></p>
-            <p>Total Tokens Sold Till now on Arbitrum: {tokenSupply?.displayValue} {tokenSupply?.symbol}</p>
-            <p>Your Token Balance: {tokenBalance?.displayValue} {tokenBalance?.symbol}</p>
-            <h1>Mint Tokens on <Image src="/images/Arbitrum.png" width={43.2} height={48.6} /></h1>
-            <input
-              type="number"
-              value={amount}
-              onChange={e => setAmount(e.target.value)}
-            />
-            <button
-              onClick={() => claimTokens(
-                { amount, to: address },
-                { onSuccess: () => setAmount('') },
-                { onError: () => setErrorMessage('An error occurred.') }
-              )
-              }
-              disabled={isLoading}
-            >Mint {amount} {tokenBalance?.symbol}
-            </button>
-
           </div>
 
         </div> { /* Div ending for Header Div Started Above */}
 
         { /* Below section for trying to showcase other PreSales in 3 Sections on OP, BSC & BASE */}
+        {/* Below is a section for Showing 4 separate Grids for different chains minting */}
         <div className={styles.grid}>
 
-          {/* Below is a section for Minting on Optimism */}
+          {/* Below is a section for Minting on Arbitrum */}
           <div className={styles.card}>
             <Image
-              src="/images/portal-preview.png"
+              src="/images/ArbBKG.png"
               alt="Placeholder preview of starter"
               width={300}
               height={200}
             />
             <div className={styles.cardText}>
-              <h2 className={styles.gradientText1}>Mint on Optimism ➜</h2>
-              <p>Your address: {address}</p>
-              <p><b> 1st Tier Tokens for Sale on Optimism: 105,000,000 </b></p>
-              <p>Total Tokens Sold Till now on Optimism: {tokenSupply?.displayValue} {tokenSupply?.symbol}</p>
-              <p>Your Token Balance: {tokenBalance?.displayValue} {tokenBalance?.symbol}</p>
-              <h1>Mint Tokens on Optimism</h1>
+              <h2 className={styles.gradientText1}>Mint on Arbitrum ➜</h2>
+              <p style={{ fontSize: '12px' }}>Contract: 0xFA101ec963573964f3c5D34a899842E34409C1c8</p>
+              <p><b> 1st Tier Tokens for Sale on Arbitrum: 105,000,000 </b></p>
+              <p>Total Tokens Sold Till now on Arbitrum: {tokenSupplyARB?.displayValue} {tokenSupplyARB?.symbol}</p>
+              {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
+              <div className="progress-container">
+                  <div
+                    className="progress-bar"
+                    style={{ width: `${percentageSold}%` }}>
+                  </div>
+                </div>
+              {/*Percentage Slider Bar end here*/}
+              <p>Your Token Balance: {tokenBalanceARB?.displayValue} {tokenBalanceARB?.symbol}</p>
+              <h1>Mint on Arbitrum</h1>
               <input
                 type="number"
-                value={amount}
-                onChange={e => setAmount(e.target.value)}
+                value={amountARB}
+                onChange={e => setAmountARB(e.target.value)}
+                className="nice-input"
               />
-              <button
-                onClick={() => claimTokens(
-                  { amount, to: address },
-                  { onSuccess: () => setAmount('') },
+            <button className="nice-button"
+                onClick={() => claimTokensARB(
+                  { amount: amountARB, to: address },
+                  { onSuccess: () => setAmountARB('0') },
                   { onError: () => setErrorMessage('An error occurred.') }
                 )
                 }
-                disabled={isLoading}
-              >Mint {amount} {tokenBalance?.symbol}
+                disabled={isLoadingARB}
+              >Mint {amountARB} {tokenBalanceARB?.symbol}
               </button>
+            </div>
+          </div>
+
+          {/* Below is a section for Minting on Optimism */}
+          <div className={styles.card}>
+            <Image
+              src="/images/OpBKG.png"
+              alt="Placeholder preview of starter"
+              width={300}
+              height={200}
+            />
+            <div className={styles.cardText}>
+              <h2 className={styles.gradientText2}>Mint on Optimism ➜</h2>
+              <p style={{ fontSize: '12px' }}>Contract: 0xA37c135A5C3D57504a1c5739459eFef8f1d47A4f</p>
+              <p><b> 1st Tier Tokens for Sale on Optimism: 105,000 </b></p>
+              <p>Total Tokens Sold Till now on Optimism: {tokenSupplyOP?.displayValue} {tokenSupplyOP?.symbol}</p>
+              {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
+              <div className="progress-container">
+                  <div
+                    className="progress-bar"
+                    style={{ width: `${percentageSold}%` }}>
+                  </div>
+                </div>
+              {/*Percentage Slider Bar end here*/}
+              <p>Your Token Balance: {tokenBalanceOP?.displayValue} {tokenBalanceOP?.symbol}</p>
+              <h1>Mint on Optimism</h1>
+              <input
+                type="number"
+                value={amountOP}
+                onChange={e => setAmountOP(e.target.value)}
+                className="nice-input"
+              />
+              {/*Revised Button code with help of chatGPT*/}
+                    <button 
+                      className="nice-button" 
+                      onClick={async () => {
+                        try {
+                          await claimTokensOP(
+                            { amount: amountOP, to: address },
+                            { onSuccess: () => setAmountOP('0') },
+                            { onError: () => setErrorMessage('An error occurred.') }
+                          );
+                        } catch (error) {
+                          console.error('Error while minting on Optimism:', error);
+                          setErrorMessage('An error occurred while minting on Optimism.');
+                        }
+                      }}
+                      disabled={isLoadingOP}
+                    >
+                      Mint {amountOP} {tokenBalanceOP?.symbol}
+                    </button>
             </div>
           </div>
 
           {/* Below is a section for Minting on Base */}
           <div className={styles.card}>
             <Image
-              src="/images/dashboard-preview.png"
-              alt="Placeholder preview of starter"
+              src="/images/BaseBKG.png"
+              alt="Placeholder preview of templates"
               width={300}
               height={200}
             />
             <div className={styles.cardText}>
-              <h2 className={styles.gradientText2}>Mint on Base ➜</h2>
-              <p>Your address: {address}</p>
+              <h2 className={styles.gradientText3}>Mint on Base ➜</h2>
+              <p style={{ fontSize: '12px' }}>Contract: 0xA37c135A5C3D57504a1c5739459eFef8f1d47A4f</p>
               <p><b> 1st Tier Tokens for Sale on Base: 105,000,000 </b></p>
-              <p>Total Tokens Sold Till now on Base: {tokenSupply?.displayValue} {tokenSupply?.symbol}</p>
-              <p>Your Token Balance: {tokenBalance?.displayValue} {tokenBalance?.symbol}</p>
-              <h1>Mint Tokens on Base</h1>
+              <p>Total Tokens Sold Till now on Base: {tokenSupplyARB?.displayValue} {tokenSupplyARB?.symbol}</p>
+              {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
+              <div className="progress-container">
+                  <div
+                    className="progress-bar"
+                    style={{ width: `${percentageSold}%` }}>
+                  </div>
+                </div>
+              {/*Percentage Slider Bar end here*/}
+              <p>Your Token Balance: {tokenBalanceARB?.displayValue} {tokenBalanceARB?.symbol}</p>
+              <h1>Mint on Base</h1>
               <input
                 type="number"
-                value={amount}
-                onChange={e => setAmount(e.target.value)}
+                value={amountARB}
+                onChange={e => setAmountARB(e.target.value)}
+                className="nice-input"
               />
-              <button
-                onClick={() => claimTokens(
-                  { amount, to: address },
-                  { onSuccess: () => setAmount('') },
+            <button className="nice-button"
+                onClick={() => claimTokensARB(
+                  { amount: amountARB, to: address },
+                  { onSuccess: () => setAmountARB('0') },
                   { onError: () => setErrorMessage('An error occurred.') }
                 )
                 }
-                disabled={isLoading}
-              >Mint {amount} {tokenBalance?.symbol}
+                disabled={isLoadingARB}
+              >Mint {amountARB} {tokenBalanceARB?.symbol}
               </button>
             </div>
           </div>
@@ -165,32 +232,41 @@ export default function Home() {
           {/* Below is a section for Minting on Binance Smart Chain */}
           <div className={styles.card}>
             <Image
-              src="/images/templates-preview.png"
+              src="/images/BscBKG.png"
               alt="Placeholder preview of templates"
               width={300}
               height={200}
             />
             <div className={styles.cardText}>
               <h2 className={styles.gradientText3}>Mint on Binance Smart Chain ➜</h2>
-              <p>Your address: {address}</p>
+              <p style={{ fontSize: '12px' }}>Contract: 0xA37c135A5C3D57504a1c5739459eFef8f1d47A4f</p>
               <p><b> 1st Tier Tokens for Sale on BSC: 105,000,000 </b></p>
-              <p>Total Tokens Sold Till now on BSC: {tokenSupply?.displayValue} {tokenSupply?.symbol}</p>
-              <p>Your Token Balance: {tokenBalance?.displayValue} {tokenBalance?.symbol}</p>
-              <h1>Mint Tokens on BSC</h1>
+              <p>Total Tokens Sold Till now on BSC: {tokenSupplyARB?.displayValue} {tokenSupplyARB?.symbol}</p>
+              {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
+              <div className="progress-container">
+                  <div
+                    className="progress-bar"
+                    style={{ width: `${percentageSold}%` }}>
+                  </div>
+                </div>
+              {/*Percentage Slider Bar end here*/}
+              <p>Your Token Balance: {tokenBalanceARB?.displayValue} {tokenBalanceARB?.symbol}</p>
+              <h1>Mint on BSC</h1>
               <input
                 type="number"
-                value={amount}
-                onChange={e => setAmount(e.target.value)}
+                value={amountARB}
+                onChange={e => setAmountARB(e.target.value)}
+                className="nice-input"
               />
-              <button
-                onClick={() => claimTokens(
-                  { amount, to: address },
-                  { onSuccess: () => setAmount('') },
+            <button className="nice-button"
+                onClick={() => claimTokensARB(
+                  { amount: amountARB, to: address },
+                  { onSuccess: () => setAmountARB('0') },
                   { onError: () => setErrorMessage('An error occurred.') }
                 )
                 }
-                disabled={isLoading}
-              >Mint {amount} {tokenBalance?.symbol}
+                disabled={isLoadingARB}
+              >Mint {amountARB} {tokenBalanceARB?.symbol}
               </button>
             </div>
           </div>
