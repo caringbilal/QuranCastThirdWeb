@@ -17,6 +17,10 @@ export default function Home() {
   const [amountARB, setAmountARB] = useState(0); //adding 0 here shows 0 in input field + I have to add 3 more Amounts for other Chains Input Sliders
   //Amount variable for Optimism Section
   const [amountOP, setAmountOP] = useState(0); //adding 0 here shows 0 in input field + I have to add 3 more Amounts for other Chains Input Sliders
+  //Amount variable for Optimism Section
+  const [amountBASE, setAmountBASE] = useState(0); //adding 0 here shows 0 in input field + I have to add 3 more Amounts for other Chains Input Sliders
+  //Amount variable for Optimism Section
+  const [amountBSC, setAmountBSC] = useState(0); //adding 0 here shows 0 in input field + I have to add 3 more Amounts for other Chains Input Sliders
 
   //adding below constants as per youtube tutorial
   const address = useAddress(); //address of the connected user wallet
@@ -39,13 +43,46 @@ export default function Home() {
   //this mutate fucntion will actually execute blockchain transaction
   const { mutate: claimTokensOP, isLoading: isLoadingOP } = useClaimToken(tokenDropOP);
 
-  //Setting up the errorMessage and setErrorMessage variables here
-  const [errorMessage, setErrorMessage] = useState('');
+  //The Below is the Optimism Contract
+  const tokenDropBASE = useContract("0xE7b6390790FBCc45161Ba5E8aFa68f97EaaF2188", "token-drop").contract; //2nd contract also deployed on Sepolia TestNet as other test nets were not working
+  //get the token supply from the contract - the tokens which have been sold till now
+  const { data: tokenSupplyBASE } = useTokenSupply(tokenDropBASE);
+  //get the token Balance of the connected User Wallet from the contract
+  const { data: tokenBalanceBASE } = useTokenBalance(tokenDropBASE, address);
+  //this mutate fucntion will actually execute blockchain transaction
+  const { mutate: claimTokensBASE, isLoading: isLoadingBASE } = useClaimToken(tokenDropBASE);
+
+  //The Below is the Optimism Contract
+  const tokenDropBSC = useContract("0xE7b6390790FBCc45161Ba5E8aFa68f97EaaF2188", "token-drop").contract; //2nd contract also deployed on Sepolia TestNet as other test nets were not working
+  //get the token supply from the contract - the tokens which have been sold till now
+  const { data: tokenSupplyBSC } = useTokenSupply(tokenDropBSC);
+  //get the token Balance of the connected User Wallet from the contract
+  const { data: tokenBalanceBSC } = useTokenBalance(tokenDropBSC, address);
+  //this mutate fucntion will actually execute blockchain transaction
+  const { mutate: claimTokensBSC, isLoading: isLoadingBSC } = useClaimToken(tokenDropBSC);  
 
   //Setting up Sold Tokens Slider for Arbitrun Chain for 1st Tier - dummy data for now 19-MAR-24
-  const totalTokensForSaleARBTier1 = 135;
-  const tokensSold = tokenSupplyARB?.displayValue;
-  const percentageSold = (tokensSold / totalTokensForSaleARBTier1) * 100;
+  const totalTokensForSaleARBTier1 = 137;
+  const tokensSoldARB = tokenSupplyARB?.displayValue;
+  const percentageSoldARB = (tokensSoldARB / totalTokensForSaleARBTier1) * 100;
+
+  //Setting up Sold Tokens Slider for Optimism Chain for 1st Tier - dummy data for now 19-MAR-24
+  const totalTokensForSaleOPTier1 = 347;
+  const tokensSoldOP = tokenSupplyOP?.displayValue;
+  const percentageSoldOP = (tokensSoldOP / totalTokensForSaleOPTier1) * 100;
+  
+  //Setting up Sold Tokens Slider for Base Chain for 1st Tier - dummy data for now 19-MAR-24
+  const totalTokensForSaleBASETier1 = 207;
+  const tokensSoldBASE = tokenSupplyBASE?.displayValue;
+  const percentageSoldBASE = (tokensSoldBASE / totalTokensForSaleBASETier1) * 100;
+
+  //Setting up Sold Tokens Slider for BSC Chain for 1st Tier - dummy data for now 19-MAR-24
+  const totalTokensForSaleBSCTier1 = 147;
+  const tokensSoldBSC = tokenSupplyBSC?.displayValue;
+  const percentageSoldBSC = (tokensSoldBSC / totalTokensForSaleBSCTier1) * 100;
+
+  //Setting up the errorMessage and setErrorMessage variables here
+  const [errorMessage, setErrorMessage] = useState('');
 
   return (
 
@@ -66,7 +103,7 @@ export default function Home() {
           </h1>
 
           <p className={styles.description}>
-            <h4 className="gradientText1">Official Links:{' '}
+            <b>Official Links:</b>{' '}
               <a href="https://qurancast.co/" target="_blank" rel="noopener noreferrer">
                 Website
               </a> |{' '}
@@ -76,9 +113,9 @@ export default function Home() {
               <a href="https://twitter.com/quran_cast" target="_blank" rel="noopener noreferrer">
                 Twitter
               </a>
-            </h4> <br />
+            <br />
             Total Stoken Supply: 7 Billion <br />
-            Tokens Sold to Community: 30% of Total Supply - 2.1 Billion <br />
+            Tokens For Community: 30% of Total Supply - 2.1 Billion <br />
             Current Pre-Sale will have 3 Tiers with increasing price, i.e.<br /><br />
 
             {" "}<code className={styles.code}>1st Tier - In Progress:</code>
@@ -122,9 +159,9 @@ export default function Home() {
               <div className="progress-container">
                 <div
                   className="progress-bar"
-                  style={{ width: `${percentageSold}%` }}>
+                  style={{ width: `${percentageSoldARB}%` }}>
                   { /* Here I will try to display the percentage of progress on top of my progress bar */}
-                  <div className="progress-label" style={{ color: 'black' }}>{percentageSold.toFixed(2)}%</div> {/* Display percentage label */}
+                  <div className="progress-label" style={{ color: 'black', fontSize: '14px', marginLeft: '7px' }}>{percentageSoldARB.toFixed(2)}%</div> {/* Display percentage label */}
                 </div> {/*I had to move the Dive down to make the progress label inside the Bar*/}
               </div><br />
               {/*Percentage Slider Bar end here*/}
@@ -159,15 +196,17 @@ export default function Home() {
             />
             <div className={styles.cardText}>
               <h2 className={styles.gradientText2}>Mint on Optimism ➜</h2>
-              <p style={{ fontSize: '12px' }}>Contract: 0xA37c135A5C3D57504a1c5739459eFef8f1d47A4f</p>
+              <p style={{ fontSize: '12px' }}>Contract: 0xE7b6390790FBCc45161Ba5E8aFa68f97EaaF2188</p>
               <p><b> 1st Tier Tokens for Sale on Optimism: 105,000 </b></p>
               <p>Total Tokens Sold on Optimism: {tokenSupplyOP?.displayValue} {tokenSupplyOP?.symbol}</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
               <div className="progress-container">
-                <div
+              <div
                   className="progress-bar"
-                  style={{ width: `${percentageSold}%` }}>
-                </div>
+                  style={{ width: `${percentageSoldOP}%` }}>
+                  { /* Here I will try to display the percentage of progress on top of my progress bar */}
+                  <div className="progress-label" style={{ color: 'black', fontSize: '14px', marginLeft: '7px' }}>{percentageSoldOP.toFixed(2)}%</div> {/* Display percentage label */}
+                </div> {/*I had to move the Dive down to make the progress label inside the Bar*/}
               </div><br />
               {/*Percentage Slider Bar end here*/}
               <p>Your Token Balance: {tokenBalanceOP?.displayValue} {tokenBalanceOP?.symbol}</p>
@@ -181,18 +220,12 @@ export default function Home() {
               {/*Revised Button code with help of chatGPT*/}
               <button
                 className="nice-button"
-                onClick={async () => {
-                  try {
-                    await claimTokensOP(
-                      { amount: amountOP, to: address },
-                      { onSuccess: () => setAmountOP('0') },
-                      { onError: () => setErrorMessage('An error occurred.') }
-                    );
-                  } catch (error) {
-                    console.error('Error while minting on Optimism:', error);
-                    setErrorMessage('An error occurred while minting on Optimism.');
-                  }
-                }}
+                onClick={() => claimTokensOP(
+                  { amount: amountARB, to: address },
+                  { onSuccess: () => setAmountOP('0') },
+                  { onError: () => setErrorMessage('An error occurred.') }
+                )
+                }
                 disabled={isLoadingOP}
               >
                 Mint {amountOP} {tokenBalanceOP?.symbol}
@@ -212,32 +245,34 @@ export default function Home() {
               <h2 className={styles.gradientText3}>Mint on Base ➜</h2>
               <p style={{ fontSize: '12px' }}>Contract: 0xA37c135A5C3D57504a1c5739459eFef8f1d47A4f</p>
               <p><b> 1st Tier Tokens for Sale on Base: 105,000,000 </b></p>
-              <p>Total Tokens Sold on Base: {tokenSupplyARB?.displayValue} {tokenSupplyARB?.symbol}</p>
+              <p>Total Tokens Sold on Base: {tokenSupplyBASE?.displayValue} {tokenSupplyBASE?.symbol}</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
               <div className="progress-container">
-                <div
+              <div
                   className="progress-bar"
-                  style={{ width: `${percentageSold}%` }}>
-                </div>
+                  style={{ width: `${percentageSoldBASE}%` }}>
+                  { /* Here I will try to display the percentage of progress on top of my progress bar */}
+                  <div className="progress-label" style={{ color: 'black', fontSize: '14px', marginLeft: '7px' }}>{percentageSoldBASE.toFixed(2)}%</div> {/* Display percentage label */}
+                </div> {/*I had to move the Dive down to make the progress label inside the Bar*/}
               </div><br />
               {/*Percentage Slider Bar end here*/}
-              <p>Your Token Balance: {tokenBalanceARB?.displayValue} {tokenBalanceARB?.symbol}</p>
+              <p>Your Token Balance: {tokenBalanceBASE?.displayValue} {tokenBalanceBASE?.symbol}</p>
               <h1>Mint on Base</h1>
               <input
                 type="number"
-                value={amountARB}
-                onChange={e => setAmountARB(e.target.value)}
+                value={amountBASE}
+                onChange={e => setAmountBASE(e.target.value)}
                 className="nice-input"
               />
               <button className="nice-button"
-                onClick={() => claimTokensARB(
-                  { amount: amountARB, to: address },
-                  { onSuccess: () => setAmountARB('0') },
+                onClick={() => claimTokensBASE(
+                  { amount: amountBASE, to: address },
+                  { onSuccess: () => setAmountBASE('0') },
                   { onError: () => setErrorMessage('An error occurred.') }
                 )
                 }
-                disabled={isLoadingARB}
-              >Mint {amountARB} {tokenBalanceARB?.symbol}
+                disabled={isLoadingBASE}
+              >Mint {amountBASE} {tokenBalanceBASE?.symbol}
               </button>
             </div>
           </div>
@@ -254,32 +289,34 @@ export default function Home() {
               <h2 className={styles.gradientText3}>Mint on Binance Smart Chain ➜</h2>
               <p style={{ fontSize: '12px' }}>Contract: 0xA37c135A5C3D57504a1c5739459eFef8f1d47A4f</p>
               <p><b> 1st Tier Tokens for Sale on BSC: 105,000,000 </b></p>
-              <p>Total Tokens Sold on BSC: {tokenSupplyARB?.displayValue} {tokenSupplyARB?.symbol}</p>
+              <p>Total Tokens Sold on BSC: {tokenSupplyBSC?.displayValue} {tokenSupplyBSC?.symbol}</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
               <div className="progress-container">
-                <div
+              <div
                   className="progress-bar"
-                  style={{ width: `${percentageSold}%` }}>
-                </div>
+                  style={{ width: `${percentageSoldBSC}%` }}>
+                  { /* Here I will try to display the percentage of progress on top of my progress bar */}
+                  <div className="progress-label" style={{ color: 'black', fontSize: '14px', marginLeft: '7px' }}>{percentageSoldBSC.toFixed(2)}%</div> {/* Display percentage label */}
+                </div> {/*I had to move the Dive down to make the progress label inside the Bar*/}
               </div><br />
               {/*Percentage Slider Bar end here*/}
-              <p>Your Token Balance: {tokenBalanceARB?.displayValue} {tokenBalanceARB?.symbol}</p>
+              <p>Your Token Balance: {tokenBalanceBSC?.displayValue} {tokenBalanceBSC?.symbol}</p>
               <h1>Mint on BSC</h1>
               <input
                 type="number"
-                value={amountARB}
-                onChange={e => setAmountARB(e.target.value)}
+                value={amountBSC}
+                onChange={e => setAmountBSC(e.target.value)}
                 className="nice-input"
               />
               <button className="nice-button"
-                onClick={() => claimTokensARB(
+                onClick={() => claimTokensBSC(
                   { amount: amountARB, to: address },
-                  { onSuccess: () => setAmountARB('0') },
+                  { onSuccess: () => setAmountBSC('0') },
                   { onError: () => setErrorMessage('An error occurred.') }
                 )
                 }
-                disabled={isLoadingARB}
-              >Mint {amountARB} {tokenBalanceARB?.symbol}
+                disabled={isLoadingBSC}
+              >Mint {amountBSC} {tokenBalanceBSC?.symbol}
               </button>
             </div>
           </div>
