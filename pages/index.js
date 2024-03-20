@@ -181,7 +181,8 @@ export default function Home() {
                 )
                 }
                 disabled={isLoadingARB}
-              >Mint {amountARB} {tokenBalanceARB?.symbol}
+                >Mint {amountARB} {tokenBalanceARB?.symbol} <br/> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
+                for {(amountARB * 0.00238).toFixed(4)} USDC
               </button>
             </div>
           </div>
@@ -228,7 +229,8 @@ export default function Home() {
                 }
                 disabled={isLoadingOP}
               >
-                Mint {amountOP} {tokenBalanceOP?.symbol}
+                Mint {amountOP} {tokenBalanceOP?.symbol}<br/> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
+                for {(amountOP * 0.00238).toFixed(4)} USDC
               </button>
             </div>
           </div>
@@ -272,7 +274,8 @@ export default function Home() {
                 )
                 }
                 disabled={isLoadingBASE}
-              >Mint {amountBASE} {tokenBalanceBASE?.symbol}
+              >Mint {amountBASE} {tokenBalanceBASE?.symbol}<br/> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
+              for {(amountBASE * 0.00238).toFixed(4)} USDC
               </button>
             </div>
           </div>
@@ -316,7 +319,8 @@ export default function Home() {
                 )
                 }
                 disabled={isLoadingBSC}
-              >Mint {amountBSC} {tokenBalanceBSC?.symbol}
+              >Mint {amountBSC} {tokenBalanceBSC?.symbol}<br/> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
+              for {(amountBSC * 0.00238).toFixed(4)} USDC
               </button>
             </div>
           </div>
