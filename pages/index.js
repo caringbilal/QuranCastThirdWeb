@@ -134,6 +134,13 @@ export default function Home() {
           <div className={styles.connect}>
             <ConnectWallet />
             <p>Your address: {address}</p>
+            {/* I'll add terms of service and privacy policy pages
+            <ConnectWallet
+                  termsOfServiceUrl="https://...."
+                  privacyPolicyUrl="https://...."
+            />;
+            */}
+
           </div>
 
         </div> { /* Div ending for Header Div Started Above */}
