@@ -62,7 +62,7 @@ export default function Home() {
   const { mutate: claimTokensBSC, isLoading: isLoadingBSC } = useClaimToken(tokenDropBSC);  
 
   //Setting up Sold Tokens Slider for Arbitrun Chain for 1st Tier - dummy data for now 19-MAR-24
-  const totalTokensForSaleARBTier1 = 137;
+  const totalTokensForSaleARBTier1 = 1370;
   const tokensSoldARB = tokenSupplyARB?.displayValue;
   const percentageSoldARB = (tokensSoldARB / totalTokensForSaleARBTier1) * 100;
 
