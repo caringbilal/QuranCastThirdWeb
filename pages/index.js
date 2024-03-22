@@ -125,7 +125,8 @@ export default function Home() {
 
           {/* Below section for connecting Wallet */}
           <div className={styles.connect}>
-            <ConnectWallet
+
+            <ConnectWallet 
               theme="dark"
               btnTitle="Connect Wallet"
               termsOfServiceUrl="https://qurancast.co/legal.html"
