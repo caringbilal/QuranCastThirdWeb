@@ -3,12 +3,6 @@ import Image from "next/image";
 import { ConnectWallet, useAddress, useContract, useClaimToken, useDisconnect, useTokenBalance, useTokenDecimals, useTokenSupply } from "@thirdweb-dev/react";
 import { useState } from "react";
 
-import { ThirdwebSDK } from "@thirdweb-dev/sdk";
-// If used on the FRONTEND pass your 'clientId'
-const sdk = new ThirdwebSDK("sepolia", {
-  clientId: "0dc765ea5ff5b69c186af185d90ac825",
-});
-//const contract = await sdk.getContract("0xFA101ec963573964f3c5D34a899842E34409C1c8"); //this line doesn't affect anything - important part was adding of client ID above
 
 export default function Home() {
 
@@ -59,7 +53,7 @@ export default function Home() {
   //get the token Balance of the connected User Wallet from the contract
   const { data: tokenBalanceBSC } = useTokenBalance(tokenDropBSC, address);
   //this mutate fucntion will actually execute blockchain transaction
-  const { mutate: claimTokensBSC, isLoading: isLoadingBSC } = useClaimToken(tokenDropBSC);  
+  const { mutate: claimTokensBSC, isLoading: isLoadingBSC } = useClaimToken(tokenDropBSC);
 
   //Setting up Sold Tokens Slider for Arbitrun Chain for 1st Tier - dummy data for now 19-MAR-24
   const totalTokensForSaleARBTier1 = 1370;
@@ -70,7 +64,7 @@ export default function Home() {
   const totalTokensForSaleOPTier1 = 347;
   const tokensSoldOP = tokenSupplyOP?.displayValue;
   const percentageSoldOP = (tokensSoldOP / totalTokensForSaleOPTier1) * 100;
-  
+
   //Setting up Sold Tokens Slider for Base Chain for 1st Tier - dummy data for now 19-MAR-24
   const totalTokensForSaleBASETier1 = 207;
   const tokensSoldBASE = tokenSupplyBASE?.displayValue;
@@ -104,15 +98,15 @@ export default function Home() {
 
           <p className={styles.description}>
             <b>Official Links:</b>{' '}
-              <a href="https://qurancast.co/" target="_blank" rel="noopener noreferrer">
-                Website
-              </a> |{' '}
-              <a href="https://discord.gg/D8UA5n3Czu" target="_blank" rel="noopener noreferrer">
-                Discord
-              </a> |{' '}
-              <a href="https://twitter.com/quran_cast" target="_blank" rel="noopener noreferrer">
-                Twitter
-              </a>
+            <a href="https://qurancast.co/" target="_blank" rel="noopener noreferrer">
+              Website
+            </a> |{' '}
+            <a href="https://discord.gg/D8UA5n3Czu" target="_blank" rel="noopener noreferrer">
+              Discord
+            </a> |{' '}
+            <a href="https://twitter.com/quran_cast" target="_blank" rel="noopener noreferrer">
+              Twitter
+            </a>
             <br />
             Total Stoken Supply: 7 Billion <br />
             Tokens For Community: 30% of Total Supply - 2.1 Billion <br />
@@ -188,7 +182,7 @@ export default function Home() {
                 )
                 }
                 disabled={isLoadingARB}
-                >Mint {amountARB} {tokenBalanceARB?.symbol} <br/> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
+              >Mint {amountARB} {tokenBalanceARB?.symbol} <br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
                 for {(amountARB * 0.00238).toFixed(4)} USDC
               </button>
             </div>
@@ -209,7 +203,7 @@ export default function Home() {
               <p>Total Tokens Sold on Optimism: {tokenSupplyOP?.displayValue} {tokenSupplyOP?.symbol}</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
               <div className="progress-container">
-              <div
+                <div
                   className="progress-bar"
                   style={{ width: `${percentageSoldOP}%` }}>
                   { /* Here I will try to display the percentage of progress on top of my progress bar */}
@@ -236,7 +230,7 @@ export default function Home() {
                 }
                 disabled={isLoadingOP}
               >
-                Mint {amountOP} {tokenBalanceOP?.symbol}<br/> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
+                Mint {amountOP} {tokenBalanceOP?.symbol}<br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
                 for {(amountOP * 0.00238).toFixed(4)} USDC
               </button>
             </div>
@@ -257,7 +251,7 @@ export default function Home() {
               <p>Total Tokens Sold on Base: {tokenSupplyBASE?.displayValue} {tokenSupplyBASE?.symbol}</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
               <div className="progress-container">
-              <div
+                <div
                   className="progress-bar"
                   style={{ width: `${percentageSoldBASE}%` }}>
                   { /* Here I will try to display the percentage of progress on top of my progress bar */}
@@ -281,8 +275,8 @@ export default function Home() {
                 )
                 }
                 disabled={isLoadingBASE}
-              >Mint {amountBASE} {tokenBalanceBASE?.symbol}<br/> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
-              for {(amountBASE * 0.00238).toFixed(4)} USDC
+              >Mint {amountBASE} {tokenBalanceBASE?.symbol}<br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
+                for {(amountBASE * 0.00238).toFixed(4)} USDC
               </button>
             </div>
           </div>
@@ -302,7 +296,7 @@ export default function Home() {
               <p>Total Tokens Sold on BSC: {tokenSupplyBSC?.displayValue} {tokenSupplyBSC?.symbol}</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
               <div className="progress-container">
-              <div
+                <div
                   className="progress-bar"
                   style={{ width: `${percentageSoldBSC}%` }}>
                   { /* Here I will try to display the percentage of progress on top of my progress bar */}
@@ -326,8 +320,8 @@ export default function Home() {
                 )
                 }
                 disabled={isLoadingBSC}
-              >Mint {amountBSC} {tokenBalanceBSC?.symbol}<br/> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
-              for {(amountBSC * 0.00238).toFixed(4)} USDC
+              >Mint {amountBSC} {tokenBalanceBSC?.symbol}<br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
+                for {(amountBSC * 0.00238).toFixed(4)} USDC
               </button>
             </div>
           </div>
