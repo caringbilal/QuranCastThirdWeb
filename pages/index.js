@@ -3,7 +3,6 @@ import Image from "next/image";
 import { ConnectWallet, useAddress, useContract, useClaimToken, useDisconnect, useTokenBalance, useTokenDecimals, useTokenSupply } from "@thirdweb-dev/react";
 import { useState } from "react";
 
-
 export default function Home() {
 
   //setting state for the claiming process
@@ -126,9 +125,14 @@ export default function Home() {
 
           {/* Below section for connecting Wallet */}
           <div className={styles.connect}>
-            <ConnectWallet />
+            <ConnectWallet
+              theme="dark"
+              btnTitle="Connect Wallet"
+              termsOfServiceUrl="https://qurancast.co/legal.html"
+            />
             <p>Your address: {address}</p>
             {/* I'll add terms of service and privacy policy pages
+            Terms of Service page added above
             <ConnectWallet
                   termsOfServiceUrl="https://...."
                   privacyPolicyUrl="https://...."

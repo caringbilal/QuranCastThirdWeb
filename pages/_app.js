@@ -1,15 +1,23 @@
 import { ThirdwebProvider } from '@thirdweb-dev/react';
 import '../styles/globals.css';
+import { Sepolia, Arbitrum, Optimism, Base, Binance } from '@thirdweb-dev/chains';
 
 // This is the chain your dApp will work on.
 // Change this to the chain your app is built for.
 // You can also import additional chains from `@thirdweb-dev/chains` and pass them directly.
-const activeChain = 'sepolia';
+//const activeChain = 'sepolia';
 
 function MyApp({ Component, pageProps }) {
 	return (
 		<ThirdwebProvider
-			activeChain={activeChain}
+			activeChain={Sepolia}
+			supportedChains={[
+				Sepolia,
+				Arbitrum,
+				Optimism,
+				Base,
+				Binance
+			]}
 			clientId={process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID}
 		>
 			<Component {...pageProps} />
