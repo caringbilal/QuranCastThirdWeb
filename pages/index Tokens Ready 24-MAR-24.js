@@ -107,18 +107,17 @@ export default function Home() {
               Twitter
             </a>
             <br />
-            Total Planned Raised Amount: 7 Million <br />
-            Thank you for believing! Your Ajar is secured! May your participation blossom into a future filled with worldly rewards. <br /><br />
-            We plan to raise these funds in 3 Tiers, i.e.<br /><br />
+            Total Stoken Supply: 7 Billion <br />
+            Tokens For Community: 30% of Total Supply - 2.1 Billion <br />
+            Current Pre-Sale will have 3 Tiers with increasing price, i.e.<br /><br />
 
-            {" "}<code className={styles.code}>Founders' Club - In Progress:</code>
-            420M Thank You Receipts at $0.00238 to raise $1M. 1.68B tokens remain.<br />
+            {" "}<code className={styles.code}>1st Tier - In Progress:</code>
+            20% of 2.1B tokens = 420M sold at $0.00238 to raise $1M. 1.68B tokens remain.<br />
             <br />
-            { /* Planned message to be part of each transaction too "Thank you for believing! Your Ajar is secured! May your participation blossom into a future filled with worldly rewards." */}
-            {" "}<code className={styles.codeDisabled}>Early Adopter Club:</code>
+            {" "}<code className={styles.codeDisabled}>2nd Tier:</code>
             30% of 2.1B tokens = 630M sold at $0.00317 to raise $2M. 1.05B tokens remain.<br />
             <br />
-            {" "}<code className={styles.codeDisabled}>Genesis Group:</code>
+            {" "}<code className={styles.codeDisabled}>3rd Tier:</code>
             50% of 2.1B tokens = 1.05B sold at $0.00381 to raise $4M.<br />
           </p>
 
