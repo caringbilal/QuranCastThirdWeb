@@ -92,7 +92,7 @@ export default function Home() {
               >
                 QuranCast
               </a>
-            </span> PreSale.
+            </span> Donation Campaign.
           </h1>
 
           <p className={styles.description}>
@@ -107,19 +107,19 @@ export default function Home() {
               Twitter
             </a>
             <br />
-            Total Planned Raised Amount: 7 Million <br />
-            Thank you for believing! Your Ajar is secured! May your participation blossom into a future filled with worldly rewards. <br /><br />
+            Total Planned Raised Amount: 7 Million USDC <br />
+            By participating in this donation campaign, your Ajar is secured, the moment your transaction is confirmed on Blockchain! May your participation blossom into a future filled with worldly rewards. <br /><br />
             We plan to raise these funds in 3 Tiers, i.e.<br /><br />
 
             {" "}<code className={styles.code}>Founders' Club - In Progress:</code>
-            420M Thank You Receipts at $0.00238 to raise $1M. 1.68B tokens remain.<br />
+            1,400,000 Thank You Receipts at $0.714 to raise $1M USDC.<br />
             <br />
             { /* Planned message to be part of each transaction too "Thank you for believing! Your Ajar is secured! May your participation blossom into a future filled with worldly rewards." */}
             {" "}<code className={styles.codeDisabled}>Early Adopter Club:</code>
-            30% of 2.1B tokens = 630M sold at $0.00317 to raise $2M. 1.05B tokens remain.<br />
+            1,680,000 Thank You Receipts at $1.191 to raise $2M USDC.<br />
             <br />
-            {" "}<code className={styles.codeDisabled}>Genesis Group:</code>
-            50% of 2.1B tokens = 1.05B sold at $0.00381 to raise $4M.<br />
+            {" "}<code className={styles.codeDisabled}>Genesis Club:</code>
+            3,500,000 Thank You Receipts at $1.275 to raise $5M USDC.<br />
           </p>
 
           {/* Trying to add Tabs here */}
@@ -160,8 +160,8 @@ export default function Home() {
             <div className={styles.cardText}>
               <h2 className={styles.gradientText1}>Mint on Arbitrum ➜</h2>
               <p style={{ fontSize: '12px' }}>Contract: 0xFA101ec963573964f3c5D34a899842E34409C1c8</p>
-              <p><b> 1st Tier Tokens for Sale on Arbitrum: 105,000,000 </b></p>
-              <p>Total Tokens Sold on Arbitrum: {tokenSupplyARB?.displayValue} {tokenSupplyARB?.symbol}</p>
+              <p><b> Founder's Club Thanks Pass on Arbitrum: 350,000 </b></p>
+              <p>Total Passes Minted on Arbitrum: {tokenSupplyARB?.displayValue} {tokenSupplyARB?.symbol}</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
               <div className="progress-container">
                 <div
@@ -172,7 +172,7 @@ export default function Home() {
                 </div> {/*I had to move the Dive down to make the progress label inside the Bar*/}
               </div><br />
               {/*Percentage Slider Bar end here*/}
-              <p>Your Token Balance: {tokenBalanceARB?.displayValue} {tokenBalanceARB?.symbol}</p>
+              <p>Your Passes: {tokenBalanceARB?.displayValue} {tokenBalanceARB?.symbol}</p>
               <h1>Mint on Arbitrum</h1>
               <input
                 type="number"
@@ -205,8 +205,8 @@ export default function Home() {
             <div className={styles.cardText}>
               <h2 className={styles.gradientText2}>Mint on Optimism ➜</h2>
               <p style={{ fontSize: '12px' }}>Contract: 0xE7b6390790FBCc45161Ba5E8aFa68f97EaaF2188</p>
-              <p><b> 1st Tier Tokens for Sale on Optimism: 105,000 </b></p>
-              <p>Total Tokens Sold on Optimism: {tokenSupplyOP?.displayValue} {tokenSupplyOP?.symbol}</p>
+              <p><b> Founder's Club Thanks Pass on Optimism: 350,000 </b></p>
+              <p>Total Passes Minted on Optimism: {tokenSupplyOP?.displayValue} {tokenSupplyOP?.symbol}</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
               <div className="progress-container">
                 <div
@@ -217,7 +217,7 @@ export default function Home() {
                 </div> {/*I had to move the Dive down to make the progress label inside the Bar*/}
               </div><br />
               {/*Percentage Slider Bar end here*/}
-              <p>Your Token Balance: {tokenBalanceOP?.displayValue} {tokenBalanceOP?.symbol}</p>
+              <p>Your Passes: {tokenBalanceOP?.displayValue} {tokenBalanceOP?.symbol}</p>
               <h1>Mint on Optimism</h1>
               <input
                 type="number"
@@ -253,8 +253,8 @@ export default function Home() {
             <div className={styles.cardText}>
               <h2 className={styles.gradientText3}>Mint on Base ➜</h2>
               <p style={{ fontSize: '12px' }}>Contract: 0xA37c135A5C3D57504a1c5739459eFef8f1d47A4f</p>
-              <p><b> 1st Tier Tokens for Sale on Base: 105,000,000 </b></p>
-              <p>Total Tokens Sold on Base: {tokenSupplyBASE?.displayValue} {tokenSupplyBASE?.symbol}</p>
+              <p><b> Founder's Club Thanks Pass on Base: 350,000 </b></p>
+              <p>Total Passes Minted on Base: {tokenSupplyBASE?.displayValue} {tokenSupplyBASE?.symbol}</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
               <div className="progress-container">
                 <div
@@ -265,7 +265,7 @@ export default function Home() {
                 </div> {/*I had to move the Dive down to make the progress label inside the Bar*/}
               </div><br />
               {/*Percentage Slider Bar end here*/}
-              <p>Your Token Balance: {tokenBalanceBASE?.displayValue} {tokenBalanceBASE?.symbol}</p>
+              <p>Your Passes: {tokenBalanceBASE?.displayValue} {tokenBalanceBASE?.symbol}</p>
               <h1>Mint on Base</h1>
               <input
                 type="number"
@@ -298,8 +298,8 @@ export default function Home() {
             <div className={styles.cardText}>
               <h2 className={styles.gradientText3}>Mint on Binance Smart Chain ➜</h2>
               <p style={{ fontSize: '12px' }}>Contract: 0xA37c135A5C3D57504a1c5739459eFef8f1d47A4f</p>
-              <p><b> 1st Tier Tokens for Sale on BSC: 105,000,000 </b></p>
-              <p>Total Tokens Sold on BSC: {tokenSupplyBSC?.displayValue} {tokenSupplyBSC?.symbol}</p>
+              <p><b> Founder's Club Thanks Pass on BSC: 350,000 </b></p>
+              <p>Total Passes Minted on BSC: {tokenSupplyBSC?.displayValue} {tokenSupplyBSC?.symbol}</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
               <div className="progress-container">
                 <div
@@ -310,7 +310,7 @@ export default function Home() {
                 </div> {/*I had to move the Dive down to make the progress label inside the Bar*/}
               </div><br />
               {/*Percentage Slider Bar end here*/}
-              <p>Your Token Balance: {tokenBalanceBSC?.displayValue} {tokenBalanceBSC?.symbol}</p>
+              <p>Your Passes: {tokenBalanceBSC?.displayValue} {tokenBalanceBSC?.symbol}</p>
               <h1>Mint on BSC</h1>
               <input
                 type="number"
