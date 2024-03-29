@@ -107,6 +107,14 @@ export default function Home() {
               Twitter
             </a>
             <br />
+            <b>Official Web3 Addresses:</b>{' '}
+            <a href="https://etherscan.io/address/qurancast.eth" target="_blank" rel="noopener noreferrer">
+              qurancast.eth
+            </a> |{' '}
+            <a href="https://explorer.solana.com/address/B48Pw11GoLomJ4F3xWQN5x3afBxcmSFyHfQgbKTXTCrQ" target="_blank" rel="noopener noreferrer">
+              qurancat.sol
+            </a>
+            <br /><br />
             Total Planned Raised Amount: 7 Million USDC <br />
             By participating in this donation campaign, your Ajar is secured, the moment your transaction is confirmed on Blockchain! May your participation blossom into a future filled with worldly rewards. <br /><br />
             We plan to raise these funds in 3 Tiers, i.e.<br /><br />
