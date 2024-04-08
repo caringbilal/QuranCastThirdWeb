@@ -75,39 +75,47 @@ export default function Home() {
   const tokensSoldBSC = tokenSupplyBSC?.displayValue;
   const percentageSoldBSC = (tokensSoldBSC / totalTokensForSaleBSCTier1) * 100;
 
-  //Setting up the errorMessage and setErrorMessage variables here
-  const [errorMessage, setErrorMessage] = useState('');
-
   //Setting up the constant for storing the selected network
   const [setAddress] = useState(null);
+  const [connectedWallet, setConnectedWallet] = useState(null); // Use a more descriptive name
   const [networkName, setNetworkName] = useState(null);
   const [chainId, setChainId] = useState(null); //will store chainId of the selected network
+  const [isLoading, setIsLoading] = useState(true); // Add a loading state
+  const [errorMessage, setErrorMessage] = useState(null); // Add error handling
 
   useEffect(() => {
     const getNetwork = async () => {
-      try {
+    try {
+      setIsLoading(true); // Indicate loading start
+      if (window.ethereum) {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const network = await provider.getNetwork();
         setNetworkName(network.name);
-        setChainId(network.chainId); // Add this line to store the chainId
-      } catch (error) {
-        setErrorMessage('Error fetching network information');
-        console.error('Network error:', error);
+        setChainId(network.chainId);
+        setConnectedWallet(provider.getSigner().address); // Update connected wallet address
+      } else {
+        console.log("window.ethereum is not available");
+        setErrorMessage('Please install MetaMask or a compatible wallet'); // Guide user
       }
-    };
+    } catch (error) {
+      setErrorMessage('Error fetching network information');
+      console.error('Network error:', error);
+    } finally {
+      setIsLoading(false); // Indicate loading completion
+    }
+  };
 
     getNetwork();
 
-    // Add event listener for network change (optional)
-    window.ethereum.on('chainChanged', getNetwork); //updated the function name from netwrokChanged to chainChanged - 6-APR-24
+    // Add event listener for network change (optional, for dynamic updates)
+  window.ethereum?.on('chainChanged', getNetwork);
 
-    return () => {
-      // Cleanup function to remove event listener on unmount
-      window.ethereum.removeListener('chainChanged', getNetwork); //updated the function name from netwrokChanged to chainChanged - 6-APR-24
-    };
+  return () => {
+    // Cleanup function to remove event listener on unmount
+    window.ethereum?.removeListener('chainChanged', getNetwork);
+  };
 
-  }, [address]); // Run only when address changes - this is the end of useEffect
-
+}, [connectedWallet]); // Run only when connected wallet address changes
 
 
   return (
