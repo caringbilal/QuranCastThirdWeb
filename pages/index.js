@@ -156,7 +156,7 @@ export default function Home() {
               qurancat.sol
             </a>
             <br /><br />
-            Total Planned Raised Amount: 7 Million USDC<br />
+            Total Planned Raised Amount: 7 Million USDC (7-4-24 Update)<br />
             By participating in this campaign, your Ajar is secured, the moment your transaction is confirmed on Blockchain! May your participation blossom into a future filled with worldly rewards. <br /><br />
             We plan to raise these funds in 3 Tiers, i.e.<br /><br />
 
