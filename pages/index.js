@@ -1,7 +1,8 @@
 import styles from "../styles/Home.module.css";
 import Image from "next/image";
-import { ConnectWallet, useAddress, useContract, useClaimToken, useDisconnect, useTokenBalance, useTokenDecimals, useTokenSupply } from "@thirdweb-dev/react";
-import { useState } from "react";
+import { ConnectWallet, useAddress, useContract, useClaimToken, useDisconnect, useTokenBalance, useTokenDecimals, useTokenSupply, useChainId, useEtherBalance, useTokenTotalBalance } from "@thirdweb-dev/react";
+import { useState, useEffect } from "react";
+import { ethers } from 'ethers'; //importing to fetch the selected network
 
 export default function Home() {
 
@@ -77,6 +78,38 @@ export default function Home() {
   //Setting up the errorMessage and setErrorMessage variables here
   const [errorMessage, setErrorMessage] = useState('');
 
+  //Setting up the constant for storing the selected network
+  const [setAddress] = useState(null);
+  const [networkName, setNetworkName] = useState(null);
+  const [chainId, setChainId] = useState(null); //will store chainId of the selected network
+
+  useEffect(() => {
+    const getNetwork = async () => {
+      try {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const network = await provider.getNetwork();
+        setNetworkName(network.name);
+        setChainId(network.chainId); // Add this line to store the chainId
+      } catch (error) {
+        setErrorMessage('Error fetching network information');
+        console.error('Network error:', error);
+      }
+    };
+
+    getNetwork();
+
+    // Add event listener for network change (optional)
+    window.ethereum.on('chainChanged', getNetwork); //updated the function name from netwrokChanged to chainChanged - 6-APR-24
+
+    return () => {
+      // Cleanup function to remove event listener on unmount
+      window.ethereum.removeListener('chainChanged', getNetwork); //updated the function name from netwrokChanged to chainChanged - 6-APR-24
+    };
+
+  }, [address]); // Run only when address changes - this is the end of useEffect
+
+
+
   return (
 
     <main className={styles.main}>
@@ -92,7 +125,7 @@ export default function Home() {
               >
                 QuranCast
               </a>
-            </span> Donation Campaign.
+            </span> ThanksPass Campaign.
           </h1>
 
           <p className={styles.description}>
@@ -115,19 +148,19 @@ export default function Home() {
               qurancat.sol
             </a>
             <br /><br />
-            Total Planned Raised Amount: 7 Million USDC <br />
-            By participating in this donation campaign, your Ajar is secured, the moment your transaction is confirmed on Blockchain! May your participation blossom into a future filled with worldly rewards. <br /><br />
+            Total Planned Raised Amount: 7 Million USDC<br />
+            By participating in this campaign, your Ajar is secured, the moment your transaction is confirmed on Blockchain! May your participation blossom into a future filled with worldly rewards. <br /><br />
             We plan to raise these funds in 3 Tiers, i.e.<br /><br />
 
-            {" "}<code className={styles.code}>Founders' Club - In Progress:</code>
-            1,400,000 Thank You Receipts at $0.714 to raise $1M USDC.<br />
+            {" "}<code className={styles.code}>Founder&apos;s Club - In Progress:</code>
+            1,400,000 Thanks Passes at $0.714 to raise $1M USDC.<br />
             <br />
             { /* Planned message to be part of each transaction too "Thank you for believing! Your Ajar is secured! May your participation blossom into a future filled with worldly rewards." */}
             {" "}<code className={styles.codeDisabled}>Early Adopter Club:</code>
-            1,680,000 Thank You Receipts at $1.191 to raise $2M USDC.<br />
+            1,680,000 Thanks Passes at $1.191 to raise $2M USDC.<br />
             <br />
             {" "}<code className={styles.codeDisabled}>Genesis Club:</code>
-            3,500,000 Thank You Receipts at $1.275 to raise $5M USDC.<br />
+            3,500,000 Thanks Passes at $1.275 to raise $5M USDC.<br />
           </p>
 
           {/* Trying to add Tabs here */}
@@ -140,14 +173,22 @@ export default function Home() {
               btnTitle="Connect Wallet"
               termsOfServiceUrl="https://qurancast.co/legal.html"
             />
-            <p>Your address: {address}</p>
-            {/* I'll add terms of service and privacy policy pages
-            Terms of Service page added above & code also successfully committing now
-            <ConnectWallet
-                  termsOfServiceUrl="https://...."
-                  privacyPolicyUrl="https://...."
-            />;
-            */}
+            {/*<p>Your address: {address}</p>*/}
+
+            {/* ... rest of your component JSX */}
+            {address && (
+              <p>
+                Connected wallet address: {address}
+                {networkName && (
+                  <span style={{ marginLeft: 10 }}>
+                    (Network: {networkName})
+                  </span>
+                )}
+                {errorMessage && <span style={{ color: 'red' }}>{errorMessage}</span>}
+                {chainId && <span style={{ marginLeft: 10 }}>(Chain ID: {chainId})</span>}
+              </p>
+            )}
+            {/* Below I will try to show Native ETH or BNB or ARB Token Balance of connected wallet */}
 
           </div>
 
@@ -157,63 +198,83 @@ export default function Home() {
         {/* Below is a section for Showing 4 separate Grids for different chains minting */}
         <div className={styles.grid}>
 
-          {/* Below is a section for Minting on Arbitrum */}
+          {/* Below is a section for Minting on Base */}
           <div className={styles.card}>
-            <Image
-              src="/images/ArbBKG.png"
-              alt="Placeholder preview of starter"
-              width={300}
-              height={200}
-            />
+            {/* I am changing the bkg picture based on selected network */}
+            {chainId === 8453 ? (
+              <Image
+                src="/images/BaseBKG.png"
+                alt="Placeholder preview of templates"
+                width={300}
+                height={200}
+              />
+            ) : (
+              <Image
+                src="/images/BaseBKGGrey.png"
+                alt="Placeholder preview of templates"
+                width={300}
+                height={200}
+              />
+            )}
             <div className={styles.cardText}>
-              <h2 className={styles.gradientText1}>Mint on Arbitrum ➜</h2>
-              <p style={{ fontSize: '12px' }}>Contract: 0xFA101ec963573964f3c5D34a899842E34409C1c8</p>
-              <p><b> Founder's Club Thanks Pass on Arbitrum: 350,000 </b></p>
-              <p>Total Passes Minted on Arbitrum: {tokenSupplyARB?.displayValue} {tokenSupplyARB?.symbol}</p>
+              <h2 className={styles.gradientText3}>Mint on Base ➜</h2>
+              <p style={{ fontSize: '12px' }}>Contract: 0xA37c135A5C3D57504a1c5739459eFef8f1d47A4f</p>
+              <p><b> Founder&apos;s Club Thanks Pass on Base: 350,000 </b></p>
+              <p>Total Passes Minted on Base: {tokenSupplyBASE?.displayValue} {tokenSupplyBASE?.symbol}</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
               <div className="progress-container">
                 <div
                   className="progress-bar"
-                  style={{ width: `${percentageSoldARB}%` }}>
+                  style={{ width: `${percentageSoldBASE}%` }}>
                   { /* Here I will try to display the percentage of progress on top of my progress bar */}
-                  <div className="progress-label" style={{ color: 'black', fontSize: '14px', marginLeft: '7px' }}>{percentageSoldARB.toFixed(2)}%</div> {/* Display percentage label */}
+                  <div className="progress-label" style={{ color: 'black', fontSize: '14px', marginLeft: '7px' }}>{percentageSoldBASE.toFixed(2)}%</div> {/* Display percentage label */}
                 </div> {/*I had to move the Dive down to make the progress label inside the Bar*/}
               </div><br />
               {/*Percentage Slider Bar end here*/}
-              <p>Your Passes: {tokenBalanceARB?.displayValue} {tokenBalanceARB?.symbol}</p>
-              <h1>Mint on Arbitrum</h1>
+              <p>Your Passes: {tokenBalanceBASE?.displayValue} {tokenBalanceBASE?.symbol}</p>
+              <h1>Mint on Base</h1>
               <input
                 type="number"
-                value={amountARB}
-                onChange={e => setAmountARB(e.target.value)}
+                value={amountBASE}
+                onChange={e => setAmountBASE(e.target.value)}
                 className="nice-input"
               />
-              <button className="nice-button"
-                onClick={() => claimTokensARB(
-                  { amount: amountARB, to: address },
-                  { onSuccess: () => setAmountARB('0') },
+              <button className={`nice-button ${chainId !== 8453 ? 'disabled' : ''}`} //also checking here if selected network is base or not?
+                onClick={() => claimTokensBASE(
+                  { amount: amountBASE, to: address },
+                  { onSuccess: () => setAmountBASE('0') },
                   { onError: () => setErrorMessage('An error occurred.') }
                 )
                 }
-                disabled={isLoadingARB}
-              >Mint {amountARB} {tokenBalanceARB?.symbol} <br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
-                for {(amountARB * 0.00238).toFixed(4)} USDC
+                disabled={isLoadingBASE || chainId !== 8453} //also checking here if selected network is base or not? or if transaction loading, then making the button disabled.
+              >Mint {amountBASE} {tokenBalanceBASE?.symbol}<br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
+                for {(amountBASE * 0.00238).toFixed(4)} USDC
               </button>
             </div>
           </div>
 
           {/* Below is a section for Minting on Optimism */}
           <div className={styles.card}>
-            <Image
-              src="/images/OpBKG.png"
-              alt="Placeholder preview of starter"
-              width={300}
-              height={200}
-            />
+            {/* I am changing the bkg picture based on selected network */}
+            {networkName === 'optimism' ? (
+              <Image
+                src="/images/OpBKG.png"
+                alt="Placeholder preview of templates"
+                width={300}
+                height={200}
+              />
+            ) : (
+              <Image
+                src="/images/OpBKGGrey.png"
+                alt="Placeholder preview of templates"
+                width={300}
+                height={200}
+              />
+            )}
             <div className={styles.cardText}>
               <h2 className={styles.gradientText2}>Mint on Optimism ➜</h2>
               <p style={{ fontSize: '12px' }}>Contract: 0xE7b6390790FBCc45161Ba5E8aFa68f97EaaF2188</p>
-              <p><b> Founder's Club Thanks Pass on Optimism: 350,000 </b></p>
+              <p><b> Founder&apos;s Club Thanks Pass on Optimism: 350,000 </b></p>
               <p>Total Passes Minted on Optimism: {tokenSupplyOP?.displayValue} {tokenSupplyOP?.symbol}</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
               <div className="progress-container">
@@ -235,14 +296,14 @@ export default function Home() {
               />
               {/*Revised Button code with help of chatGPT*/}
               <button
-                className="nice-button"
+                className={`nice-button ${networkName !== 'optimism' ? 'disabled' : ''}`} //also checking here if selected network is optimism or not?
                 onClick={() => claimTokensOP(
                   { amount: amountARB, to: address },
                   { onSuccess: () => setAmountOP('0') },
                   { onError: () => setErrorMessage('An error occurred.') }
                 )
                 }
-                disabled={isLoadingOP}
+                disabled={isLoadingOP || networkName !== 'optimism'} //also checking here if selected network is optimism or not? or if transaction loading, then making the button disabled.
               >
                 Mint {amountOP} {tokenBalanceOP?.symbol}<br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
                 for {(amountOP * 0.00238).toFixed(4)} USDC
@@ -250,63 +311,85 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Below is a section for Minting on Base */}
+
+          {/* Below is a section for Minting on Arbitrum */}
           <div className={styles.card}>
-            <Image
-              src="/images/BaseBKG.png"
-              alt="Placeholder preview of templates"
-              width={300}
-              height={200}
-            />
+            {/* I am changing the bkg picture based on selected network */}
+            {networkName === 'sepolia' ? (
+              <Image
+                src="/images/ArbBKG.png"
+                alt="Placeholder preview of templates"
+                width={300}
+                height={200}
+              />
+            ) : (
+              <Image
+                src="/images/ArbBKGGrey.png"
+                alt="Placeholder preview of templates"
+                width={300}
+                height={200}
+              />
+            )}
             <div className={styles.cardText}>
-              <h2 className={styles.gradientText3}>Mint on Base ➜</h2>
-              <p style={{ fontSize: '12px' }}>Contract: 0xA37c135A5C3D57504a1c5739459eFef8f1d47A4f</p>
-              <p><b> Founder's Club Thanks Pass on Base: 350,000 </b></p>
-              <p>Total Passes Minted on Base: {tokenSupplyBASE?.displayValue} {tokenSupplyBASE?.symbol}</p>
+              <h2 className={styles.gradientText1}>Mint on Arbitrum ➜</h2>
+              <p style={{ fontSize: '12px' }}>Contract: 0xFA101ec963573964f3c5D34a899842E34409C1c8</p>
+              <p><b> Founder&apos;s Club Thanks Pass on Arbitrum: 350,000 </b></p>
+              <p>Total Passes Minted on Arbitrum: {tokenSupplyARB?.displayValue} {tokenSupplyARB?.symbol}</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
               <div className="progress-container">
                 <div
                   className="progress-bar"
-                  style={{ width: `${percentageSoldBASE}%` }}>
+                  style={{ width: `${percentageSoldARB}%` }}>
                   { /* Here I will try to display the percentage of progress on top of my progress bar */}
-                  <div className="progress-label" style={{ color: 'black', fontSize: '14px', marginLeft: '7px' }}>{percentageSoldBASE.toFixed(2)}%</div> {/* Display percentage label */}
+                  <div className="progress-label" style={{ color: 'black', fontSize: '14px', marginLeft: '7px' }}>{percentageSoldARB.toFixed(2)}%</div> {/* Display percentage label */}
                 </div> {/*I had to move the Dive down to make the progress label inside the Bar*/}
               </div><br />
               {/*Percentage Slider Bar end here*/}
-              <p>Your Passes: {tokenBalanceBASE?.displayValue} {tokenBalanceBASE?.symbol}</p>
-              <h1>Mint on Base</h1>
+              <p>Your Passes: {tokenBalanceARB?.displayValue} {tokenBalanceARB?.symbol}</p>
+              <h1>Mint on Arbitrum</h1>
               <input
                 type="number"
-                value={amountBASE}
-                onChange={e => setAmountBASE(e.target.value)}
+                value={amountARB}
+                onChange={e => setAmountARB(e.target.value)}
                 className="nice-input"
               />
-              <button className="nice-button"
-                onClick={() => claimTokensBASE(
-                  { amount: amountBASE, to: address },
-                  { onSuccess: () => setAmountBASE('0') },
+              <button className={`nice-button ${networkName !== 'sepolia' ? 'disabled' : ''}`} //also checking here if selected network is arbitrum or not?
+                onClick={() => claimTokensARB(
+                  { amount: amountARB, to: address },
+                  { onSuccess: () => setAmountARB('0') },
                   { onError: () => setErrorMessage('An error occurred.') }
                 )
                 }
-                disabled={isLoadingBASE}
-              >Mint {amountBASE} {tokenBalanceBASE?.symbol}<br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
-                for {(amountBASE * 0.00238).toFixed(4)} USDC
+                disabled={isLoadingARB || networkName !== 'sepolia'} //also checking here if selected network is arbitrum or not? or if transaction loading, then making the button disabled.
+              >Mint {amountARB} {tokenBalanceARB?.symbol} <br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
+                for {(amountARB * 0.00238).toFixed(4)} USDC
               </button>
             </div>
           </div>
 
+
           {/* Below is a section for Minting on Binance Smart Chain */}
           <div className={styles.card}>
-            <Image
-              src="/images/BscBKG.png"
-              alt="Placeholder preview of templates"
-              width={300}
-              height={200}
-            />
+            {/* I am changing the bkg picture based on selected network */}
+            {networkName === 'bnb' ? (
+              <Image
+                src="/images/BscBKG.png"
+                alt="Placeholder preview of templates"
+                width={300}
+                height={200}
+              />
+            ) : (
+              <Image
+                src="/images/BscBKGGrey.png"
+                alt="Placeholder preview of templates"
+                width={300}
+                height={200}
+              />
+            )}
             <div className={styles.cardText}>
               <h2 className={styles.gradientText3}>Mint on Binance Smart Chain ➜</h2>
               <p style={{ fontSize: '12px' }}>Contract: 0xA37c135A5C3D57504a1c5739459eFef8f1d47A4f</p>
-              <p><b> Founder's Club Thanks Pass on BSC: 350,000 </b></p>
+              <p><b> Founder&apos;s Club Thanks Pass on BSC: 350,000 </b></p>
               <p>Total Passes Minted on BSC: {tokenSupplyBSC?.displayValue} {tokenSupplyBSC?.symbol}</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
               <div className="progress-container">
@@ -326,14 +409,14 @@ export default function Home() {
                 onChange={e => setAmountBSC(e.target.value)}
                 className="nice-input"
               />
-              <button className="nice-button"
+              <button className={`nice-button ${networkName !== 'bnb' ? 'disabled' : ''}`} //also checking here if selected network is bnb or not?
                 onClick={() => claimTokensBSC(
                   { amount: amountARB, to: address },
                   { onSuccess: () => setAmountBSC('0') },
                   { onError: () => setErrorMessage('An error occurred.') }
                 )
                 }
-                disabled={isLoadingBSC}
+                disabled={isLoadingBSC || networkName !== 'bnb'} //also checking here if selected network is bnb or not? or if transaction loading, then making the button disabled.
               >Mint {amountBSC} {tokenBalanceBSC?.symbol}<br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
                 for {(amountBSC * 0.00238).toFixed(4)} USDC
               </button>
