@@ -109,3 +109,15 @@ body {
   width: var(--progress, 0%);
   transition: width 0.5s ease;
 }
+
+/* Add this new class to your CSS file */
+.mobile-message {
+  /* Your desired styling for the mobile message, such as text color, font size, etc. */
+  color: #a94442;
+  /* Example: Reddish color for emphasis */
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  padding: 20px;
+  /* Example: Add some padding */
+}
