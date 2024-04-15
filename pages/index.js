@@ -15,6 +15,9 @@ export default function Home() {
   const [amountBASE, setAmountBASE] = useState(0); //adding 0 here shows 0 in input field + I have to add 3 more Amounts for other Chains Input Sliders
   //Amount variable for Optimism Section
   const [amountBSC, setAmountBSC] = useState(0); //adding 0 here shows 0 in input field + I have to add 3 more Amounts for other Chains Input Sliders
+  //Amount variable for BASE Seploia Section
+  const [amountBSP, setAmountBSP] = useState(0); //adding 0 here shows 0 in input field + I have to add 3 more Amounts for other Chains Input Sliders
+
 
   //adding below constants as per youtube tutorial
   const address = useAddress(); //address of the connected user wallet
@@ -29,7 +32,7 @@ export default function Home() {
   const { mutate: claimTokensARB, isLoading: isLoadingARB } = useClaimToken(tokenDropARB);
 
   //The Below is the Optimism Contract
-  const tokenDropOP = useContract("0xE7b6390790FBCc45161Ba5E8aFa68f97EaaF2188", "token-drop").contract; //2nd contract also deployed on Sepolia TestNet as other test nets were not working
+  const tokenDropOP = useContract("0xFA101ec963573964f3c5D34a899842E34409C1c8", "token-drop").contract; //2nd contract also deployed on Sepolia TestNet as other test nets were not working
   //get the token supply from the contract - the tokens which have been sold till now
   const { data: tokenSupplyOP } = useTokenSupply(tokenDropOP);
   //get the token Balance of the connected User Wallet from the contract
@@ -37,8 +40,8 @@ export default function Home() {
   //this mutate fucntion will actually execute blockchain transaction
   const { mutate: claimTokensOP, isLoading: isLoadingOP } = useClaimToken(tokenDropOP);
 
-  //The Below is the Optimism Contract
-  const tokenDropBASE = useContract("0xE7b6390790FBCc45161Ba5E8aFa68f97EaaF2188", "token-drop").contract; //2nd contract also deployed on Sepolia TestNet as other test nets were not working
+  //The Below is the BASE Contract
+  const tokenDropBASE = useContract("0xFA101ec963573964f3c5D34a899842E34409C1c8", "token-drop").contract; //2nd contract also deployed on Sepolia TestNet as other test nets were not working
   //get the token supply from the contract - the tokens which have been sold till now
   const { data: tokenSupplyBASE } = useTokenSupply(tokenDropBASE);
   //get the token Balance of the connected User Wallet from the contract
@@ -46,14 +49,24 @@ export default function Home() {
   //this mutate fucntion will actually execute blockchain transaction
   const { mutate: claimTokensBASE, isLoading: isLoadingBASE } = useClaimToken(tokenDropBASE);
 
-  //The Below is the Optimism Contract
-  const tokenDropBSC = useContract("0xE7b6390790FBCc45161Ba5E8aFa68f97EaaF2188", "token-drop").contract; //2nd contract also deployed on Sepolia TestNet as other test nets were not working
+  //The Below is the BNB Contract
+  const tokenDropBSC = useContract("0xFA101ec963573964f3c5D34a899842E34409C1c8", "token-drop").contract; //2nd contract also deployed on Sepolia TestNet as other test nets were not working
   //get the token supply from the contract - the tokens which have been sold till now
   const { data: tokenSupplyBSC } = useTokenSupply(tokenDropBSC);
   //get the token Balance of the connected User Wallet from the contract
   const { data: tokenBalanceBSC } = useTokenBalance(tokenDropBSC, address);
   //this mutate fucntion will actually execute blockchain transaction
   const { mutate: claimTokensBSC, isLoading: isLoadingBSC } = useClaimToken(tokenDropBSC);
+
+  //The Below is the BASE Sepolia Contract - Contract not loading from Thirdweb - 15-APR-24
+  //working fine using the sample contract on deployed contract page button
+  const tokenDropBSP = useContract("0x1d495dEaD290df87bFc28834981379bE0DD14Bb5", "token-drop").contract; //2nd contract also deployed on Sepolia TestNet as other test nets were not working
+  //get the token supply from the contract - the tokens which have been sold till now
+  const { data: tokenSupplyBSP } = useTokenSupply(tokenDropBSP);
+  //get the token Balance of the connected User Wallet from the contract
+  const { data: tokenBalanceBSP } = useTokenBalance(tokenDropBSP, address);
+  //this mutate fucntion will actually execute blockchain transaction
+  const { mutate: claimTokensBSP, isLoading: isLoadingBSP } = useClaimToken(tokenDropBSP);
 
   //Setting up Sold Tokens Slider for Arbitrun Chain for 1st Tier - dummy data for now 19-MAR-24
   const totalTokensForSaleARBTier1 = 1370;
@@ -74,6 +87,11 @@ export default function Home() {
   const totalTokensForSaleBSCTier1 = 147;
   const tokensSoldBSC = tokenSupplyBSC?.displayValue;
   const percentageSoldBSC = (tokensSoldBSC / totalTokensForSaleBSCTier1) * 100;
+
+  //Setting up Sold Tokens Slider for BASE Seploia Chain for 1st Tier - 15-APR-24
+  const totalTokensForSaleBSPTier1 = 1437;
+  const tokensSoldBSP = tokenSupplyBSP?.displayValue;
+  const percentageSoldBSP = (tokensSoldBSP / totalTokensForSaleBSPTier1) * 100;
 
   //Setting up the constant for storing the selected network
   const [setAddress] = useState(null);
@@ -427,6 +445,61 @@ export default function Home() {
                 disabled={isLoadingBSC || networkName !== 'bnb'} //also checking here if selected network is bnb or not? or if transaction loading, then making the button disabled.
               >Mint {amountBSC} {tokenBalanceBSC?.symbol}<br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
                 for {(amountBSC * 0.00238).toFixed(4)} USDC
+              </button>
+            </div>
+          </div>
+
+          {/* Below is a section for Minting on BASE Seploia Chain */}
+          <div className={styles.card}>
+            {/* I am changing the bkg picture based on selected network */}
+            {networkName === 'bnb' ? (
+              <Image
+                src="/images/BscBKG.png"
+                alt="Placeholder preview of templates"
+                width={300}
+                height={200}
+              />
+            ) : (
+              <Image
+                src="/images/BscBKGGrey.png"
+                alt="Placeholder preview of templates"
+                width={300}
+                height={200}
+              />
+            )}
+            <div className={styles.cardText}>
+              <h2 className={styles.gradientText3}>Mint on BASE Sepolia Chain ➜</h2>
+              <p style={{ fontSize: '12px' }}>Contract: 0x1d495dEaD290df87bFc28834981379bE0DD14Bb5</p>
+              <p><b> Founder&apos;s Club Thanks Pass on Base Sepolia: 1,437 </b></p>
+              <p>Total Passes Minted on Base Sepolia: {tokenSupplyBSP?.displayValue} {tokenSupplyBSP?.symbol}</p>
+              {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
+              <div className="progress-container">
+                <div
+                  className="progress-bar"
+                  style={{ width: `${percentageSoldBSP}%` }}>
+                  { /* Here I will try to display the percentage of progress on top of my progress bar */}
+                  <div className="progress-label" style={{ color: 'black', fontSize: '14px', marginLeft: '7px' }}>{percentageSoldBSC.toFixed(2)}%</div> {/* Display percentage label */}
+                </div> {/*I had to move the Dive down to make the progress label inside the Bar*/}
+              </div><br />
+              {/*Percentage Slider Bar end here*/}
+              <p>Your Passes: {tokenBalanceBSP?.displayValue} {tokenBalanceBSP?.symbol}</p>
+              <h1>Mint on Base Sepolia</h1>
+              <input
+                type="number"
+                value={amountBSP}
+                onChange={e => setAmountBSP(e.target.value)}
+                className="nice-input"
+              />
+              <button className={`nice-button ${networkName !== 'unknown' ? 'disabled' : ''}`} //also checking here if selected network is bnb or not?
+                onClick={() => claimTokensBSP(
+                  { amount: amountBSP, to: address },
+                  { onSuccess: () => setAmountBSP('0') },
+                  { onError: () => setErrorMessage('An error occurred.') }
+                )
+                }
+                disabled={isLoadingBSP || networkName !== 'unknown'} //also checking here if selected network is bnb or not? or if transaction loading, then making the button disabled.
+              >Mint {amountBSP} {tokenBalanceBSP?.symbol}<br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
+                for {(amountBSP * 0.00238).toFixed(4)} USDC
               </button>
             </div>
           </div>
