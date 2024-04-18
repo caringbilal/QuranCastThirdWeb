@@ -1,6 +1,6 @@
 import styles from "../styles/Home.module.css";
 import Image from "next/image";
-import { ConnectWallet, useAddress, useContract, useClaimToken, useDisconnect, useTokenBalance, useTokenDecimals, useTokenSupply, useChainId, useEtherBalance, useTokenTotalBalance } from "@thirdweb-dev/react";
+import { ConnectWallet, useAddress, useContract, useClaimToken, useTokenBalance, useTokenSupply, useChainId } from "@thirdweb-dev/react";
 import { useState, useEffect } from "react";
 import { ethers } from 'ethers'; //importing to fetch the selected network
 
@@ -93,50 +93,82 @@ export default function Home() {
   const tokensSoldBSP = tokenSupplyBSP?.displayValue;
   const percentageSoldBSP = (tokensSoldBSP / totalTokensForSaleBSPTier1) * 100;
 
-  //Setting up the constant for storing the selected network
-  const [setAddress] = useState(null);
-  const [connectedWallet, setConnectedWallet] = useState(null); // Use a more descriptive name
-  const [networkName, setNetworkName] = useState(null);
-  const [chainId, setChainId] = useState(null); //will store chainId of the selected network
-  const [isLoading, setIsLoading] = useState(true); // Add a loading state
-  const [errorMessage, setErrorMessage] = useState(null); // Add error handling
+//   //Setting up the constant for storing the selected network
+//   const [setAddress] = useState(null);
+//   const [connectedWallet, setConnectedWallet] = useState(null); // Use a more descriptive name
+//   const [networkName, setNetworkName] = useState(null);
+//   const [chainId, setChainId] = useState(null); //will store chainId of the selected network
+//   const [isLoading, setIsLoading] = useState(true); // Add a loading state
+//   const [errorMessage, setErrorMessage] = useState(null); // Add error handling
 
-  // First useEffect hook to fetch network information using ethers
-  useEffect(() => {
-    const getNetwork = async () => {
-    try {
-      setIsLoading(true); // Indicate loading start
-      if (window.ethereum) {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const network = await provider.getNetwork();
-        setNetworkName(network.name);
-        setChainId(network.chainId);
-        setConnectedWallet(provider.getSigner().address); // Update connected wallet address
-      } else {
-        console.log("window.ethereum is not available");
-        setErrorMessage('Please install MetaMask or a compatible wallet'); // Guide user
-      }
-    } catch (error) {
-      setErrorMessage('Error fetching network information');
-      console.error('Network error:', error);
-    } finally {
-      setIsLoading(false); // Indicate loading completion
-    }
-  };
+//   // First useEffect hook to fetch network information using ethers
+//   useEffect(() => {
+//     const getNetwork = async () => {
+//     try {
+//       setIsLoading(true); // Indicate loading start
+//       if (window.ethereum) {
+//         const provider = new ethers.providers.Web3Provider(window.ethereum);
+//         const network = await provider.getNetwork();
+//         setNetworkName(network.name);
+//         setChainId(network.chainId);
+//         setConnectedWallet(provider.getSigner().address); // Update connected wallet address
+//       } else {
+//         console.log("window.ethereum is not available");
+//         setErrorMessage('Please install MetaMask or a compatible wallet'); // Guide user
+//       }
+//     } catch (error) {
+//       setErrorMessage('Error fetching network information');
+//       console.error('Network error:', error);
+//     } finally {
+//       setIsLoading(false); // Indicate loading completion
+//     }
+//   };
 
-    getNetwork();
+//     getNetwork();
 
-  // Add event listener for network change (optional, for dynamic updates)
-  window.ethereum?.on('chainChanged', getNetwork);
+//   // Add event listener for network change (optional, for dynamic updates)
+//   window.ethereum?.on('chainChanged', getNetwork);
 
-  return () => {
-  // Cleanup function to remove event listener on unmount
-    window.ethereum?.removeListener('chainChanged', getNetwork);
-  };
+//   return () => {
+//   // Cleanup function to remove event listener on unmount
+//     window.ethereum?.removeListener('chainChanged', getNetwork);
+//   };
 
-}, [connectedWallet]); // Run only when connected wallet address changes
+// }, [connectedWallet]); // Run only when connected wallet address changes
 
-  //trying to fetch chainId and chainName from Thirdweb - 18-APR-24
+// Network information using Thirdweb
+const [isLoading, setIsLoading] = useState(false); // Initialize isLoading state
+const [error, setErrorMessage] = useState(null); // Initialize error state
+
+// Network information using Thirdweb - 18-APR-24
+const chainId = useChainId(); // Get the entire object from Thirdweb
+const networkName = chainId?.data ? getNetworkNameFromChainId(chainId.data) : null;
+
+// Helper function to map chainId to network name
+const getNetworkNameFromChainId = (chainId) => {
+  switch (chainId) {
+    case 1:
+      return "Mainnet";
+    case 4:
+      return "Rinkeby";
+    case 5:
+      return "Goerli";
+    case 42:
+      return "Kovan";
+    // Add mappings for other supported chains here
+    default:
+      return "Unknown Network";
+  }
+};
+
+// ... rest of your component logic (unchanged)
+
+// useEffect hook to handle loading and errors
+useEffect(() => {
+  // Update isLoading and error based on Thirdweb object properties
+  setIsLoading(chainId?.isLoading);
+  setErrorMessage(chainId?.error);
+}, [chainId]); // Use chainId as a single dependency
 
   return (
 
@@ -212,9 +244,10 @@ export default function Home() {
                     (Network: {networkName})
                   </span>
                 )}
-                {errorMessage && <span style={{ color: 'red' }}>{errorMessage}</span>}
+                {/*{errorMessage && <span style={{ color: 'red' }}>{errorMessage}</span>} THIS LINE was to show errormessage when I had implemented Ethers Library instead of Thirdweb*/}
                 {chainId && <span style={{ marginLeft: 10 }}>(Chain ID: {chainId})</span>}
               </p>
+              
             )}
             {/* Below I will try to show Native ETH or BNB or ARB Token Balance of connected wallet */}
 
@@ -284,7 +317,7 @@ export default function Home() {
           {/* Below is a section for Minting on Optimism */}
           <div className={styles.card}>
             {/* I am changing the bkg picture based on selected network */}
-            {networkName === 'optimism' ? (
+            {chainId === 10 ? (
               <Image
                 src="/images/OpBKG.png"
                 alt="Placeholder preview of templates"
@@ -324,14 +357,14 @@ export default function Home() {
               />
               {/*Revised Button code with help of chatGPT*/}
               <button
-                className={`nice-button ${networkName !== 'optimism' ? 'disabled' : ''}`} //also checking here if selected network is optimism or not?
+                className={`nice-button ${chainId !== 10 ? 'disabled' : ''}`} //also checking here if selected network is optimism or not?
                 onClick={() => claimTokensOP(
                   { amount: amountARB, to: address },
                   { onSuccess: () => setAmountOP('0') },
                   { onError: () => setErrorMessage('An error occurred.') }
                 )
                 }
-                disabled={isLoadingOP || networkName !== 'optimism'} //also checking here if selected network is optimism or not? or if transaction loading, then making the button disabled.
+                disabled={isLoadingOP || chainId !== 10} //also checking here if selected network is optimism or not? or if transaction loading, then making the button disabled.
               >
                 Mint {amountOP} {tokenBalanceOP?.symbol}<br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
                 for {(amountOP * 0.00238).toFixed(4)} USDC
@@ -340,10 +373,10 @@ export default function Home() {
           </div>
 
 
-          {/* Below is a section for Minting on Arbitrum */}
+          {/* Below is a section for Minting on Arbitrum+testing with Sepolia ID 11155111 */}
           <div className={styles.card}>
             {/* I am changing the bkg picture based on selected network */}
-            {networkName === 'sepolia' ? (
+            {chainId === 11155111 ? (
               <Image
                 src="/images/ArbBKG.png"
                 alt="Placeholder preview of templates"
@@ -381,14 +414,14 @@ export default function Home() {
                 onChange={e => setAmountARB(e.target.value)}
                 className="nice-input"
               />
-              <button className={`nice-button ${networkName !== 'sepolia' ? 'disabled' : ''}`} //also checking here if selected network is arbitrum or not?
+              <button className={`nice-button ${chainId !== 11155111 ? 'disabled' : ''}`} //also checking here if selected network is arbitrum or not? TESTING with SEPOLIA ID
                 onClick={() => claimTokensARB(
                   { amount: amountARB, to: address },
                   { onSuccess: () => setAmountARB('0') },
                   { onError: () => setErrorMessage('An error occurred.') }
                 )
                 }
-                disabled={isLoadingARB || networkName !== 'sepolia'} //also checking here if selected network is arbitrum or not? or if transaction loading, then making the button disabled.
+                disabled={isLoadingARB || chainId !== 11155111} //also checking here if selected network is arbitrum or not? or if transaction loading, then making the button disabled.
               >Mint {amountARB} {tokenBalanceARB?.symbol} <br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
                 for {(amountARB * 0.00238).toFixed(4)} USDC
               </button>
@@ -399,7 +432,7 @@ export default function Home() {
           {/* Below is a section for Minting on Binance Smart Chain */}
           <div className={styles.card}>
             {/* I am changing the bkg picture based on selected network */}
-            {networkName === 'bnb' ? (
+            {chainId === 56 ? (
               <Image
                 src="/images/BscBKG.png"
                 alt="Placeholder preview of templates"
@@ -437,14 +470,14 @@ export default function Home() {
                 onChange={e => setAmountBSC(e.target.value)}
                 className="nice-input"
               />
-              <button className={`nice-button ${networkName !== 'bnb' ? 'disabled' : ''}`} //also checking here if selected network is bnb or not?
+              <button className={`nice-button ${chainId !== 56 ? 'disabled' : ''}`} //also checking here if selected network is bnb or not?
                 onClick={() => claimTokensBSC(
                   { amount: amountARB, to: address },
                   { onSuccess: () => setAmountBSC('0') },
                   { onError: () => setErrorMessage('An error occurred.') }
                 )
                 }
-                disabled={isLoadingBSC || networkName !== 'bnb'} //also checking here if selected network is bnb or not? or if transaction loading, then making the button disabled.
+                disabled={isLoadingBSC || chainId !== 56} //also checking here if selected network is bnb or not? or if transaction loading, then making the button disabled.
               >Mint {amountBSC} {tokenBalanceBSC?.symbol}<br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
                 for {(amountBSC * 0.00238).toFixed(4)} USDC
               </button>
@@ -454,7 +487,7 @@ export default function Home() {
           {/* Below is a section for Minting on BASE Seploia Chain */}
           <div className={styles.card}>
             {/* I am changing the bkg picture based on selected network */}
-            {networkName === 'bnb' ? (
+            {chainId === 84532 ? (
               <Image
                 src="/images/BscBKG.png"
                 alt="Placeholder preview of templates"
@@ -492,14 +525,14 @@ export default function Home() {
                 onChange={e => setAmountBSP(e.target.value)}
                 className="nice-input"
               />
-              <button className={`nice-button ${networkName !== 'unknown' ? 'disabled' : ''}`} //also checking here if selected network is bnb or not?
+              <button className={`nice-button ${chainId !== 84532 ? 'disabled' : ''}`} //also checking here if selected network is bnb or not?
                 onClick={() => claimTokensBSP(
                   { amount: amountBSP, to: address },
                   { onSuccess: () => setAmountBSP('0') },
                   { onError: () => setErrorMessage('An error occurred.') }
                 )
                 }
-                disabled={isLoadingBSP || networkName !== 'unknown'} //also checking here if selected network is bnb or not? or if transaction loading, then making the button disabled.
+                disabled={isLoadingBSP || chainId !== 84532} //also checking here if selected network is bnb or not? or if transaction loading, then making the button disabled.
               >Mint {amountBSP} {tokenBalanceBSP?.symbol}<br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
                 for {(amountBSP * 0.00238).toFixed(4)} USDC
               </button>
