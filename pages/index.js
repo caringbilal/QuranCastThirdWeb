@@ -22,15 +22,6 @@ export default function Home() {
   //adding below constants as per youtube tutorial
   const address = useAddress(); //address of the connected user wallet
 
-  //this is to store my created contract address from ThirdWeb = The Below is the Arbitrum Contract
-  const tokenDropARB = useContract("0xFA101ec963573964f3c5D34a899842E34409C1c8", "token-drop").contract;
-  //get the token supply from the contract - the tokens which have been sold till now
-  const { data: tokenSupplyARB } = useTokenSupply(tokenDropARB);
-  //get the token Balance of the connected User Wallet from the contract
-  const { data: tokenBalanceARB } = useTokenBalance(tokenDropARB, address);
-  //this mutate fucntion will actually execute blockchain transaction
-  const { mutate: claimTokensARB, isLoading: isLoadingARB } = useClaimToken(tokenDropARB);
-
   //The Below is the Optimism Contract
   const tokenDropOP = useContract("0xFA101ec963573964f3c5D34a899842E34409C1c8", "token-drop").contract; //2nd contract also deployed on Sepolia TestNet as other test nets were not working
   //get the token supply from the contract - the tokens which have been sold till now
@@ -67,11 +58,6 @@ export default function Home() {
   const { data: tokenBalanceBSP } = useTokenBalance(tokenDropBSP, address);
   //this mutate fucntion will actually execute blockchain transaction
   const { mutate: claimTokensBSP, isLoading: isLoadingBSP } = useClaimToken(tokenDropBSP);
-
-  //Setting up Sold Tokens Slider for Arbitrun Chain for 1st Tier - dummy data for now 19-MAR-24
-  const totalTokensForSaleARBTier1 = 1370;
-  const tokensSoldARB = tokenSupplyARB?.displayValue;
-  const percentageSoldARB = (tokensSoldARB / totalTokensForSaleARBTier1) * 100;
 
   //Setting up Sold Tokens Slider for Optimism Chain for 1st Tier - dummy data for now 19-MAR-24
   const totalTokensForSaleOPTier1 = 347;
@@ -145,6 +131,7 @@ const chainId = useChainId(); // Get the entire object from Thirdweb
 const networkName = chainId?.data ? getNetworkNameFromChainId(chainId.data) : null;
 
 // Helper function to map chainId to network name
+//network names are not being fetched on 18-APR-24
 const getNetworkNameFromChainId = (chainId) => {
   switch (chainId) {
     case 1:
@@ -163,12 +150,57 @@ const getNetworkNameFromChainId = (chainId) => {
 
 // ... rest of your component logic (unchanged)
 
-// useEffect hook to handle loading and errors
+//useEffect hook to handle loading and errors
+//Effect 1 (Network Change Detection):
 useEffect(() => {
   // Update isLoading and error based on Thirdweb object properties
   setIsLoading(chainId?.isLoading);
   setErrorMessage(chainId?.error);
 }, [chainId]); // Use chainId as a single dependency
+
+
+//trying to link separate contracts for each network
+const [contractAddress, setContractAddress] = useState(null);
+
+// Contract address mapping for different networks ALL in ONE PLACE
+const contractAddressMap = {
+  84532: "0x1d495dEaD290df87bFc28834981379bE0DD14Bb5", // Base Sepolia
+  11155111: "0xFA101ec963573964f3c5D34a899842E34409C1c8", // Replace with your actual Sepolia contract address
+  10: "YOUR_OPTIMISM_CONTRACT_ADDRESS", // Replace with your Optimism contract address
+  8453: "YOUR_BASE_MAINNET_CONTRACT_ADDRESS", // Replace with your Base Mainnet contract address
+  42161: "YOUR_ARBITRUM_MAINNET_CONTRACT_ADDRESS", // Replace with your Arbitrum Mainnet contract address
+  56: "YOUR_BNB_MAINNET_CONTRACT_ADDRESS", // Replace with your BNB Mainnet contract address
+};
+
+// Effect to set contract address based on chain ID
+useEffect(() => {
+  if (chainId?.data) {
+    const mappedAddress = contractAddressMap[chainId.data];
+    if (mappedAddress) {
+      setContractAddress(mappedAddress);
+    } else {
+      console.error("Contract address not found for network:", chainId.data);
+    }
+  }
+}, [chainId]);
+
+// Use tokenDrop variable for all contract interactions
+const tokenDrop = useContract(contractAddress, "token-drop").contract;
+
+//moving all Constants after the contract is set into one single variable
+  //this is to store my created contract address from ThirdWeb = The Below is the Arbitrum Contract
+  ////const tokenDropARB = useContract("0xFA101ec963573964f3c5D34a899842E34409C1c8", "token-drop").contract;
+  //get the token supply from the contract - the tokens which have been sold till now
+  const { data: tokenSupplyARB } = useTokenSupply(tokenDrop);
+  //get the token Balance of the connected User Wallet from the contract
+  const { data: tokenBalanceARB } = useTokenBalance(tokenDrop, address);
+  //this mutate fucntion will actually execute blockchain transaction
+  const { mutate: claimTokensARB, isLoading: isLoadingARB } = useClaimToken(tokenDrop);
+
+  //Setting up Sold Tokens Slider for Arbitrun Chain for 1st Tier - dummy data for now 19-MAR-24
+  const totalTokensForSaleARBTier1 = 1370;
+  const tokensSoldARB = tokenSupplyARB?.displayValue;
+  const percentageSoldARB = (tokensSoldARB / totalTokensForSaleARBTier1) * 100;
 
   return (
 
@@ -246,6 +278,15 @@ useEffect(() => {
                 )}
                 {/*{errorMessage && <span style={{ color: 'red' }}>{errorMessage}</span>} THIS LINE was to show errormessage when I had implemented Ethers Library instead of Thirdweb*/}
                 {chainId && <span style={{ marginLeft: 10 }}>(Chain ID: {chainId})</span>}
+                {contractAddress ? (
+                  <span style={{ marginLeft: 10 }}>
+                    (Contract Address: {contractAddress})
+                  </span>
+                ) : (
+                  <span style={{ marginLeft: 10, color: "red" }}>
+                    Contract not found for this network
+                  </span>
+                )}
               </p>
               
             )}
