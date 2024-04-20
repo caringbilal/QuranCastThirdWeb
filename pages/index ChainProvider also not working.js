@@ -5,8 +5,6 @@ import { useState, useEffect } from "react";
 import { ethers } from 'ethers'; //importing to fetch the selected network
 import { addresses } from './addresses'; // Assuming your addresses file is named "addresses.js"
 import { ChainContext } from '../context/Chain'; // Assuming your context is in a folder named "context"
-import React from "react";
-
 
 export default function Home() {
 
@@ -55,7 +53,7 @@ export default function Home() {
 
   //The Below is the BASE Sepolia Contract - Contract not loading from Thirdweb - 15-APR-24
   //working fine using the sample contract on deployed contract page button
-  const tokenDropBSP = useContract("0xFA101ec963573964f3c5D34a899842E34409C1c8", "token-drop").contract; //2nd contract also deployed on Sepolia TestNet as other test nets were not working
+  const tokenDropBSP = useContract("0x1d495dEaD290df87bFc28834981379bE0DD14Bb5", "token-drop").contract; //2nd contract also deployed on Sepolia TestNet as other test nets were not working
   //get the token supply from the contract - the tokens which have been sold till now
   const { data: tokenSupplyBSP } = useTokenSupply(tokenDropBSP);
   //get the token Balance of the connected User Wallet from the contract
@@ -83,40 +81,74 @@ export default function Home() {
   const tokensSoldBSP = tokenSupplyBSP?.displayValue;
   const percentageSoldBSP = (tokensSoldBSP / totalTokensForSaleBSPTier1) * 100;
 
+//   //Setting up the constant for storing the selected network
+//   const [setAddress] = useState(null);
+//   const [connectedWallet, setConnectedWallet] = useState(null); // Use a more descriptive name
+//   const [networkName, setNetworkName] = useState(null);
+//   const [chainId, setChainId] = useState(null); //will store chainId of the selected network
+//   const [isLoading, setIsLoading] = useState(true); // Add a loading state
+//   const [errorMessage, setErrorMessage] = useState(null); // Add error handling
+
+//   // First useEffect hook to fetch network information using ethers
+//   useEffect(() => {
+//     const getNetwork = async () => {
+//     try {
+//       setIsLoading(true); // Indicate loading start
+//       if (window.ethereum) {
+//         const provider = new ethers.providers.Web3Provider(window.ethereum);
+//         const network = await provider.getNetwork();
+//         setNetworkName(network.name);
+//         setChainId(network.chainId);
+//         setConnectedWallet(provider.getSigner().address); // Update connected wallet address
+//       } else {
+//         console.log("window.ethereum is not available");
+//         setErrorMessage('Please install MetaMask or a compatible wallet'); // Guide user
+//       }
+//     } catch (error) {
+//       setErrorMessage('Error fetching network information');
+//       console.error('Network error:', error);
+//     } finally {
+//       setIsLoading(false); // Indicate loading completion
+//     }
+//   };
+
+//     getNetwork();
+
+//   // Add event listener for network change (optional, for dynamic updates)
+//   window.ethereum?.on('chainChanged', getNetwork);
+
+//   return () => {
+//   // Cleanup function to remove event listener on unmount
+//     window.ethereum?.removeListener('chainChanged', getNetwork);
+//   };
+
+// }, [connectedWallet]); // Run only when connected wallet address changes
+
 // Network information using Thirdweb
 const [isLoading, setIsLoading] = useState(false); // Initialize isLoading state
 const [error, setErrorMessage] = useState(null); // Initialize error state
 
 // Network information using Thirdweb - 18-APR-24
 const chainId = useChainId(); // Get the entire object from Thirdweb
-
-console.log("Chain ID:", chainId);
-
+const networkName = chainId?.data ? getNetworkNameFromChainId(chainId.data) : null;
 
 // Helper function to map chainId to network name
 //network names are not being fetched on 18-APR-24
 const getNetworkNameFromChainId = (chainId) => {
   switch (chainId) {
-    case 11155111:
-      return "seploia";
-    case 42161:
-      return "arbitrum";
-    case 56:
-      return "bnb";
-    case 10:
-      return "optimism";
-    case 8453:
-      return "base";
-    case 84532:
-      return "base-seploia";
-        // Add mappings for other supported chains here
+    case 1:
+      return "Mainnet";
+    case 4:
+      return "Rinkeby";
+    case 5:
+      return "Goerli";
+    case 42:
+      return "Kovan";
+    // Add mappings for other supported chains here
     default:
       return "Unknown Network";
   }
 };
-
-const networkName = chainId ? getNetworkNameFromChainId(chainId) : null;
-console.log("Network Name:", networkName);
 
 // ... rest of your component logic (unchanged)
 
@@ -126,31 +158,49 @@ useEffect(() => {
   // Update isLoading and error based on Thirdweb object properties
   setIsLoading(chainId?.isLoading);
   setErrorMessage(chainId?.error);
-  //console.log("Network Name:", networkName);
-}, [chainId, networkName]); // Use chainId as a single dependency
+}, [chainId]); // Use chainId as a single dependency
 
+
+//trying to link separate contracts for each network
+const [contractAddress, setContractAddress] = useState(null);
+
+// Contract address mapping for different networks ALL in ONE PLACE
+const contractAddressMap = {
+  84532: "0x1d495dEaD290df87bFc28834981379bE0DD14Bb5", // Base Sepolia
+  11155111: "0xFA101ec963573964f3c5D34a899842E34409C1c8", // Replace with your actual Sepolia contract address
+  10: "YOUR_OPTIMISM_CONTRACT_ADDRESS", // Replace with your Optimism contract address
+  8453: "YOUR_BASE_MAINNET_CONTRACT_ADDRESS", // Replace with your Base Mainnet contract address
+  42161: "YOUR_ARBITRUM_MAINNET_CONTRACT_ADDRESS", // Replace with your Arbitrum Mainnet contract address
+  56: "YOUR_BNB_MAINNET_CONTRACT_ADDRESS", // Replace with your BNB Mainnet contract address
+};
+
+// Effect to set contract address based on chain ID
+useEffect(() => {
+  if (chainId?.data) {
+    const mappedAddress = contractAddressMap[chainId.data];
+    if (mappedAddress) {
+      setContractAddress(mappedAddress);
+    } else {
+      console.error("Contract address not found for network:", chainId.data);
+    }
+  }
+}, [chainId]);
 
 // Use tokenDrop variable for all contract interactions
 ////const tokenDrop = useContract(contractAddress, "token-drop").contract;
 //above line was not working hence I am trying thirdweb's approach and creating a new addresses.js file 
-////const tokenDrop = useContract(addresses[chainId], "token-drop").contract;
-//directly trying to access SepoliaContract from the addresses.js file
+const tokenDrop = useContract(addresses[chainId?.data], "token-drop").contract;
 //even the new above approach didn't work yet -19-APR-24
 
 //moving all Constants after the contract is set into one single variable
   //this is to store my created contract address from ThirdWeb = The Below is the Arbitrum Contract
-  const tokenDropARB = useContract("0xFA101ec963573964f3c5D34a899842E34409C1c8", "token-drop").contract;
+  ////const tokenDropARB = useContract("0xFA101ec963573964f3c5D34a899842E34409C1c8", "token-drop").contract;
   //get the token supply from the contract - the tokens which have been sold till now
-  const { data: tokenSupplyARB } = useTokenSupply(tokenDropARB);
+  const { data: tokenSupplyARB } = useTokenSupply(tokenDrop);
   //get the token Balance of the connected User Wallet from the contract
-  const { data: tokenBalanceARB } = useTokenBalance(tokenDropARB, address);
+  const { data: tokenBalanceARB } = useTokenBalance(tokenDrop, address);
   //this mutate fucntion will actually execute blockchain transaction
-  const { mutate: claimTokensARB, isLoading: isLoadingARB } = useClaimToken(tokenDropARB);
-  //printing in console the details of the loaded contract
-  console.log("tokenDropARB Loaded:", tokenDropARB);//this returns the whole contract object
-  //printing below the contract address in console and also used the same command to display on HTML Page
-  //below line doesn't work if the page is loading for the first time
-  //console.log("tokenDropARB:", tokenDropARB.contractWrapper.address);
+  const { mutate: claimTokensARB, isLoading: isLoadingARB } = useClaimToken(tokenDrop);
 
   //Setting up Sold Tokens Slider for Arbitrun Chain for 1st Tier - dummy data for now 19-MAR-24
   const totalTokensForSaleARBTier1 = 1370;
@@ -215,16 +265,6 @@ useEffect(() => {
           {/* Below section for connecting Wallet */}
           <div className={styles.connect}>
 
-          {isLoading ? (
-  <p>Loading network information...</p>
-) : error ? (
-  <p>Error fetching network information: {error.message}</p>
-) : networkName ? (
-  <p>Connected to {networkName} network</p>
-) : (
-  <p>Please connect your wallet</p>
-)}
-
             <ConnectWallet
               theme="dark"
               btnTitle="Connect Wallet"
@@ -243,17 +283,15 @@ useEffect(() => {
                 )}
                 {/*{errorMessage && <span style={{ color: 'red' }}>{errorMessage}</span>} THIS LINE was to show errormessage when I had implemented Ethers Library instead of Thirdweb*/}
                 {chainId && <span style={{ marginLeft: 10 }}>(Chain ID: {chainId})</span>}
-                {tokenDropARB ? (
+                {contractAddress ? (
                   <span style={{ marginLeft: 10 }}>
-                    (Contract Address: {tokenDropARB.contractWrapper.address})
+                    (Contract Address: {contractAddress})
                   </span>
                 ) : (
                   <span style={{ marginLeft: 10, color: "red" }}>
                     Contract not found for this network
                   </span>
                 )}
-                {chainId?.isLoading && <p>Fetching network information...</p>}
-
               </p>
               
             )}
@@ -512,7 +550,7 @@ useEffect(() => {
             )}
             <div className={styles.cardText}>
               <h2 className={styles.gradientText3}>Mint on BASE Sepolia Chain ➜</h2>
-              <p style={{ fontSize: '12px' }}>Contract: 0xFA101ec963573964f3c5D34a899842E34409C1c8</p>
+              <p style={{ fontSize: '12px' }}>Contract: 0x1d495dEaD290df87bFc28834981379bE0DD14Bb5</p>
               <p><b> Founder&apos;s Club Thanks Pass on Base Sepolia: 1,437 </b></p>
               <p>Total Passes Minted on Base Sepolia: {tokenSupplyBSP?.displayValue} {tokenSupplyBSP?.symbol}</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
