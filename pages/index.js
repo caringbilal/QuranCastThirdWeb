@@ -3,10 +3,10 @@ import Image from "next/image";
 import { ConnectWallet, useAddress, useContract, useClaimToken, useTokenBalance, useTokenSupply, useChainId } from "@thirdweb-dev/react";
 import { useState, useEffect } from "react";
 import { ethers } from 'ethers'; //importing to fetch the selected network
-import { addresses } from './addresses'; // Assuming your addresses file is named "addresses.js"
+import { addresses } from './addresses.js'; // Assuming your addresses file is named "addresses.js"
 import { ChainContext } from '../context/Chain'; // Assuming your context is in a folder named "context"
 import React from "react";
-
+import Swal from 'sweetalert2';
 
 export default function Home() {
 
@@ -139,7 +139,8 @@ useEffect(() => {
 
 //moving all Constants after the contract is set into one single variable
   //this is to store my created contract address from ThirdWeb = The Below is the Arbitrum Contract
-  const tokenDropARB = useContract("0xFA101ec963573964f3c5D34a899842E34409C1c8", "token-drop").contract;
+  const dynamicContractAddress = addresses[84532];
+  const tokenDropARB = useContract(dynamicContractAddress, "token-drop").contract;
   //get the token supply from the contract - the tokens which have been sold till now
   const { data: tokenSupplyARB } = useTokenSupply(tokenDropARB);
   //get the token Balance of the connected User Wallet from the contract
@@ -253,7 +254,7 @@ useEffect(() => {
                   </span>
                 )}
                 {chainId?.isLoading && <p>Fetching network information...</p>}
-
+                
               </p>
               
             )}
@@ -425,13 +426,33 @@ useEffect(() => {
               <button className={`nice-button ${chainId !== 11155111 ? 'disabled' : ''}`} //also checking here if selected network is arbitrum or not? TESTING with SEPOLIA ID
                 onClick={() => claimTokensARB(
                   { amount: amountARB, to: address },
-                  { onSuccess: () => setAmountARB('0') },
+                  {
+                    onSuccess: () => {
+                      setAmountARB('0'); // Clear input on success (optional)
+                      Swal.fire({
+                        title: 'Success!',
+                        text: `You've successfully minted ${amountARB} ${tokenBalanceARB?.symbol}!`,
+                        icon: 'success',
+                        customClass: {
+                          confirmButton: 'swal-button success-button',
+                        },
+                        showCancelButton: false,
+                      });
+                    },
+                  },
                   { onError: () => setErrorMessage('An error occurred.') }
                 )
                 }
                 disabled={isLoadingARB || chainId !== 11155111} //also checking here if selected network is arbitrum or not? or if transaction loading, then making the button disabled.
-              >Mint {amountARB} {tokenBalanceARB?.symbol} <br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
-                for {(amountARB * 0.00238).toFixed(4)} USDC
+              >
+                {isLoadingARB ? (
+                  <span>Minting...</span> // Replace with your custom loading indicator (e.g., spinner)
+                ) : (
+                  <>
+                    Mint {amountARB} {tokenBalanceARB?.symbol} <br />
+                    for {(amountARB * 0.00238).toFixed(4)} USDC
+                  </>
+                )}
               </button>
             </div>
           </div>

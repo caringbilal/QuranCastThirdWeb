@@ -21,3 +21,7 @@ git push
 git fetch origin
 git merge origin/main
 git status //for reviewing changes
+
+===============Posting code on Vercel via commandline===================
+vercel - for making the build
+vercel --prod to upload on the final online URL as production build
