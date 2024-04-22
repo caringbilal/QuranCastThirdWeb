@@ -64,7 +64,7 @@ export default function Home() {
   const { mutate: claimTokensBSP, isLoading: isLoadingBSP } = useClaimToken(tokenDropBSP);
 
   //Setting up Sold Tokens Slider for Optimism Chain for 1st Tier - dummy data for now 19-MAR-24
-  const totalTokensForSaleOPTier1 = 347;
+  const totalTokensForSaleOPTier1 = 3470;
   const tokensSoldOP = tokenSupplyOP?.displayValue;
   const percentageSoldOP = (tokensSoldOP / totalTokensForSaleOPTier1) * 100;
 
@@ -109,6 +109,8 @@ const getNetworkNameFromChainId = (chainId) => {
       return "base";
     case 84532:
       return "base-seploia";
+    case 1:
+        return "Ethereum";      
         // Add mappings for other supported chains here
     default:
       return "Unknown Network";
@@ -181,7 +183,9 @@ useEffect(() => {
 
     Swal.fire({
       title: 'Mint Successful!',
-      text: `You've successfully minted ${amountARB} ${tokenBalanceARB?.symbol}!`,
+      text: "You've successfully minted " + amountARB + " " + tokenBalanceARB?.symbol + "!\n" +
+            "\nAdd below Contract to MetaMask Wallet to view your passes:\n" +
+            tokenDropARB.contractWrapper.address,
       icon: 'success',
       customClass: {
         confirmButton: 'swal-button success-button',
@@ -277,7 +281,7 @@ useEffect(() => {
                   </span>
                 )}
                 {/*{errorMessage && <span style={{ color: 'red' }}>{errorMessage}</span>} THIS LINE was to show errormessage when I had implemented Ethers Library instead of Thirdweb*/}
-                {chainId && <span style={{ marginLeft: 10 }}>(Chain ID: {chainId})</span>}
+                {/* {chainId && <span style={{ marginLeft: 10 }}>(Chain ID: {chainId})</span>}
                 {tokenDropARB ? (
                   <span style={{ marginLeft: 10 }}>
                     (Contract Address: {tokenDropARB.contractWrapper.address})
@@ -286,7 +290,7 @@ useEffect(() => {
                   <span style={{ marginLeft: 10, color: "red" }}>
                     Contract not found for this network
                   </span>
-                )}
+                )} */}
                 {chainId?.isLoading && <p>Fetching network information...</p>}
                 
               </p>
@@ -302,60 +306,7 @@ useEffect(() => {
         {/* Below is a section for Showing 4 separate Grids for different chains minting */}
         <div className={styles.grid}>
 
-          {/* Below is a section for Minting on Base */}
-          <div className={styles.card}>
-            {/* I am changing the bkg picture based on selected network */}
-            {chainId === 8453 ? (
-              <Image
-                src="/images/BaseBKG.png"
-                alt="Placeholder preview of templates"
-                width={300}
-                height={200}
-              />
-            ) : (
-              <Image
-                src="/images/BaseBKGGrey.png"
-                alt="Placeholder preview of templates"
-                width={300}
-                height={200}
-              />
-            )}
-            <div className={styles.cardText}>
-              <h2 className={styles.gradientText3}>Mint on Base ➜</h2>
-              <p style={{ fontSize: '12px' }}>Contract: 0xFA101ec963573964f3c5D34a899842E34409C1c8</p>
-              <p><b> Founder&apos;s Club Thanks Pass on Base: 350,000 </b></p>
-              <p>Total Passes Minted on Base: {tokenSupplyBASE?.displayValue} {tokenSupplyBASE?.symbol}</p>
-              {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
-              <div className="progress-container">
-                <div
-                  className="progress-bar"
-                  style={{ width: `${percentageSoldBASE}%` }}>
-                  { /* Here I will try to display the percentage of progress on top of my progress bar */}
-                  <div className="progress-label" style={{ color: 'black', fontSize: '14px', marginLeft: '7px' }}>{percentageSoldBASE.toFixed(2)}%</div> {/* Display percentage label */}
-                </div> {/*I had to move the Dive down to make the progress label inside the Bar*/}
-              </div><br />
-              {/*Percentage Slider Bar end here*/}
-              <p>Your Passes: {tokenBalanceBASE?.displayValue} {tokenBalanceBASE?.symbol}</p>
-              <h1>Mint on Base</h1>
-              <input
-                type="number"
-                value={amountBASE}
-                onChange={e => setAmountBASE(e.target.value)}
-                className="nice-input"
-              />
-              <button className={`nice-button ${chainId !== 8453 ? 'disabled' : ''}`} //also checking here if selected network is base or not?
-                onClick={() => claimTokensBASE(
-                  { amount: amountBASE, to: address },
-                  { onSuccess: () => setAmountBASE('0') },
-                  { onError: () => setErrorMessage('An error occurred.') }
-                )
-                }
-                disabled={isLoadingBASE || chainId !== 8453} //also checking here if selected network is base or not? or if transaction loading, then making the button disabled.
-              >Mint {amountBASE} {tokenBalanceBASE?.symbol}<br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
-                for {(amountBASE * 0.00238).toFixed(4)} USDC
-              </button>
-            </div>
-          </div>
+
 
           {/* Below is a section for Minting on Optimism */}
           <div className={styles.card}>
@@ -377,7 +328,7 @@ useEffect(() => {
             )}
             <div className={styles.cardText}>
               <h2 className={styles.gradientText2}>Mint on Optimism ➜</h2>
-              <p style={{ fontSize: '12px' }}>Contract: 0xFA101ec963573964f3c5D34a899842E34409C1c8</p>
+              <p style={{ fontSize: '14px' }}>Founder's Club Tier-1: Optimism</p>
               <p><b> Founder&apos;s Club Thanks Pass on Optimism: 350,000 </b></p>
               <p>Total Passes Minted on Optimism: {tokenSupplyOP?.displayValue} {tokenSupplyOP?.symbol}</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
@@ -436,7 +387,7 @@ useEffect(() => {
             )}
             <div className={styles.cardText}>
               <h2 className={styles.gradientText1}>Mint on Arbitrum ➜</h2>
-              <p style={{ fontSize: '12px' }}>Contract: 0xFA101ec963573964f3c5D34a899842E34409C1c8</p>
+              <p style={{ fontSize: '14px' }}>Founder's Club Tier-2: Arbitrum</p>
               <p><b> Founder&apos;s Club Thanks Pass on Arbitrum: 350,000 </b></p>
               <p>Total Passes Minted on Arbitrum: {tokenSupplyARB?.displayValue} {tokenSupplyARB?.symbol}</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
@@ -480,6 +431,60 @@ useEffect(() => {
             </div>
           </div>
 
+          {/* Below is a section for Minting on Base */}
+          <div className={styles.card}>
+            {/* I am changing the bkg picture based on selected network */}
+            {chainId === 8453 ? (
+              <Image
+                src="/images/BaseBKG.png"
+                alt="Placeholder preview of templates"
+                width={300}
+                height={200}
+              />
+            ) : (
+              <Image
+                src="/images/BaseBKGGrey.png"
+                alt="Placeholder preview of templates"
+                width={300}
+                height={200}
+              />
+            )}
+            <div className={styles.cardText}>
+              <h2 className={styles.gradientText3}>Mint on Base ➜</h2>
+              <p style={{ fontSize: '14px' }}>Founder's Club Tier-3: Base</p>
+              <p><b> Founder&apos;s Club Thanks Pass on Base: 350,000 </b></p>
+              <p>Total Passes Minted on Base: {tokenSupplyBASE?.displayValue} {tokenSupplyBASE?.symbol}</p>
+              {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
+              <div className="progress-container">
+                <div
+                  className="progress-bar"
+                  style={{ width: `${percentageSoldBASE}%` }}>
+                  { /* Here I will try to display the percentage of progress on top of my progress bar */}
+                  <div className="progress-label" style={{ color: 'black', fontSize: '14px', marginLeft: '7px' }}>{percentageSoldBASE.toFixed(2)}%</div> {/* Display percentage label */}
+                </div> {/*I had to move the Dive down to make the progress label inside the Bar*/}
+              </div><br />
+              {/*Percentage Slider Bar end here*/}
+              <p>Your Passes: {tokenBalanceBASE?.displayValue} {tokenBalanceBASE?.symbol}</p>
+              <h1>Mint on Base</h1>
+              <input
+                type="number"
+                value={amountBASE}
+                onChange={e => setAmountBASE(e.target.value)}
+                className="nice-input"
+              />
+              <button className={`nice-button ${chainId !== 8453 ? 'disabled' : ''}`} //also checking here if selected network is base or not?
+                onClick={() => claimTokensBASE(
+                  { amount: amountBASE, to: address },
+                  { onSuccess: () => setAmountBASE('0') },
+                  { onError: () => setErrorMessage('An error occurred.') }
+                )
+                }
+                disabled={isLoadingBASE || chainId !== 8453} //also checking here if selected network is base or not? or if transaction loading, then making the button disabled.
+              >Mint {amountBASE} {tokenBalanceBASE?.symbol}<br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
+                for {(amountBASE * 0.00238).toFixed(4)} USDC
+              </button>
+            </div>
+          </div>
 
           {/* Below is a section for Minting on Binance Smart Chain */}
           <div className={styles.card}>
@@ -501,7 +506,7 @@ useEffect(() => {
             )}
             <div className={styles.cardText}>
               <h2 className={styles.gradientText3}>Mint on Binance Smart Chain ➜</h2>
-              <p style={{ fontSize: '12px' }}>Contract: 0xFA101ec963573964f3c5D34a899842E34409C1c8</p>
+              <p style={{ fontSize: '14px' }}>Founder's Club Tier-4: BSC</p>
               <p><b> Founder&apos;s Club Thanks Pass on BSC: 350,000 </b></p>
               <p>Total Passes Minted on BSC: {tokenSupplyBSC?.displayValue} {tokenSupplyBSC?.symbol}</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
@@ -532,61 +537,6 @@ useEffect(() => {
                 disabled={isLoadingBSC || chainId !== 56} //also checking here if selected network is bnb or not? or if transaction loading, then making the button disabled.
               >Mint {amountBSC} {tokenBalanceBSC?.symbol}<br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
                 for {(amountBSC * 0.00238).toFixed(4)} USDC
-              </button>
-            </div>
-          </div>
-
-          {/* Below is a section for Minting on BASE Seploia Chain */}
-          <div className={styles.card}>
-            {/* I am changing the bkg picture based on selected network */}
-            {chainId === 84532 ? (
-              <Image
-                src="/images/BscBKG.png"
-                alt="Placeholder preview of templates"
-                width={300}
-                height={200}
-              />
-            ) : (
-              <Image
-                src="/images/BscBKGGrey.png"
-                alt="Placeholder preview of templates"
-                width={300}
-                height={200}
-              />
-            )}
-            <div className={styles.cardText}>
-              <h2 className={styles.gradientText3}>Mint on BASE Sepolia Chain ➜</h2>
-              <p style={{ fontSize: '12px' }}>Contract: 0xFA101ec963573964f3c5D34a899842E34409C1c8</p>
-              <p><b> Founder&apos;s Club Thanks Pass on Base Sepolia: 1,437 </b></p>
-              <p>Total Passes Minted on Base Sepolia: {tokenSupplyBSP?.displayValue} {tokenSupplyBSP?.symbol}</p>
-              {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
-              <div className="progress-container">
-                <div
-                  className="progress-bar"
-                  style={{ width: `${percentageSoldBSP}%` }}>
-                  { /* Here I will try to display the percentage of progress on top of my progress bar */}
-                  <div className="progress-label" style={{ color: 'black', fontSize: '14px', marginLeft: '7px' }}>{percentageSoldBSC.toFixed(2)}%</div> {/* Display percentage label */}
-                </div> {/*I had to move the Dive down to make the progress label inside the Bar*/}
-              </div><br />
-              {/*Percentage Slider Bar end here*/}
-              <p>Your Passes: {tokenBalanceBSP?.displayValue} {tokenBalanceBSP?.symbol}</p>
-              <h1>Mint on Base Sepolia</h1>
-              <input
-                type="number"
-                value={amountBSP}
-                onChange={e => setAmountBSP(e.target.value)}
-                className="nice-input"
-              />
-              <button className={`nice-button ${chainId !== 84532 ? 'disabled' : ''}`} //also checking here if selected network is bnb or not?
-                onClick={() => claimTokensBSP(
-                  { amount: amountBSP, to: address },
-                  { onSuccess: () => setAmountBSP('0') },
-                  { onError: () => setErrorMessage('An error occurred.') }
-                )
-                }
-                disabled={isLoadingBSP || chainId !== 84532} //also checking here if selected network is bnb or not? or if transaction loading, then making the button disabled.
-              >Mint {amountBSP} {tokenBalanceBSP?.symbol}<br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
-                for {(amountBSP * 0.00238).toFixed(4)} USDC
               </button>
             </div>
           </div>
