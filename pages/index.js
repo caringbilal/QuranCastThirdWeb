@@ -157,7 +157,7 @@ useEffect(() => {
   const tokensSoldARB = tokenSupplyARB?.displayValue;
   const percentageSoldARB = (tokensSoldARB / totalTokensForSaleARBTier1) * 100;
 
-  //adding confetti styling on the successful claiming of tokens
+  //adding confetti styling on the successful claiming of tokens - will work on this later - 22-APR-24
 
   //trying to add Sound Effect on successful claiming of tokens
   const SUCCESS_SOUND = useRef(null); // Initialize as null
@@ -180,13 +180,13 @@ useEffect(() => {
     SUCCESS_SOUND.current.play().catch(error => console.error('Audio playback error:', error));
 
     Swal.fire({
-      title: 'Success!',
+      title: 'Mint Successful!',
       text: `You've successfully minted ${amountARB} ${tokenBalanceARB?.symbol}!`,
       icon: 'success',
       customClass: {
         confirmButton: 'swal-button success-button',
       },
-      showCancelButton: false,      
+      showCancelButton: false,
     });
   };
 
