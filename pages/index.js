@@ -7,7 +7,6 @@ import { addresses } from './addresses.js'; // Assuming your addresses file is n
 import { ChainContext } from '../context/Chain'; // Assuming your context is in a folder named "context"
 import React from "react";
 import Swal from 'sweetalert2';
-import Confetti from 'react-confetti'; // Import from react-confetti
 
 export default function Home() {
 
@@ -70,12 +69,12 @@ export default function Home() {
   const percentageSoldOP = (tokensSoldOP / totalTokensForSaleOPTier1) * 100;
 
   //Setting up Sold Tokens Slider for Base Chain for 1st Tier - dummy data for now 19-MAR-24
-  const totalTokensForSaleBASETier1 = 207;
+  const totalTokensForSaleBASETier1 = 2070;
   const tokensSoldBASE = tokenSupplyBASE?.displayValue;
   const percentageSoldBASE = (tokensSoldBASE / totalTokensForSaleBASETier1) * 100;
 
   //Setting up Sold Tokens Slider for BSC Chain for 1st Tier - dummy data for now 19-MAR-24
-  const totalTokensForSaleBSCTier1 = 147;
+  const totalTokensForSaleBSCTier1 = 1470;
   const tokensSoldBSC = tokenSupplyBSC?.displayValue;
   const percentageSoldBSC = (tokensSoldBSC / totalTokensForSaleBSCTier1) * 100;
 
@@ -159,7 +158,6 @@ useEffect(() => {
   const percentageSoldARB = (tokensSoldARB / totalTokensForSaleARBTier1) * 100;
 
   //adding confetti styling on the successful claiming of tokens
-  const [isConfettiActive, setIsConfettiActive] = useState(false);
 
   //trying to add Sound Effect on successful claiming of tokens
   const SUCCESS_SOUND = useRef(null); // Initialize as null
@@ -167,8 +165,7 @@ useEffect(() => {
     try {
       // Create the Audio object within the effect
       SUCCESS_SOUND.current = new Audio([
-        '../public/congrats.mp3', // Your primary MP3 source
-        '../public/congrats.ogg', // Ogg Vorbis format for wider compatibility (optional)
+        './congrats.mp3', // Your primary MP3 source
       ]);
       console.log("Congratulations sound loaded successfully!");
     } catch (error) {
@@ -179,8 +176,6 @@ useEffect(() => {
   //handling Confetti Animation + Playing congrats sound + Displaying success message
   const handleClaimARB = async () => {
     // ... logic for claiming tokens on Arbitrum
-    setIsConfettiActive(true); // Trigger confetti animation on successful claim
-    setTimeout(() => setIsConfettiActive(false), 3400); // Hide confetti after 3.4 seconds
 
     SUCCESS_SOUND.current.play().catch(error => console.error('Audio playback error:', error));
 
@@ -191,7 +186,7 @@ useEffect(() => {
       customClass: {
         confirmButton: 'swal-button success-button',
       },
-      showCancelButton: false,
+      showCancelButton: false,      
     });
   };
 
@@ -199,23 +194,6 @@ useEffect(() => {
   return (
 
     <main className={styles.main}>
-      {/* Adding Confetti Code details here */}
-      {isConfettiActive && (
-          <Confetti
-          // Customize particle properties for a middle-of-page origin
-          origin={{ y: 0.5 }} // Adjust Y coordinate between 0 and 1 for vertical positioning
-          particleCount={347} // Adjust particle count
-          colors={[
-            '#f00', // Red
-            '#0f0', // Green
-            '#00f', // Blue
-          ]}
-          initialVelocityX={0} // Set initial horizontal velocity to 0 for centered appearance
-          spread={360} // Adjust confetti spread for a wide distribution
-          recycle={false} // Set to false to keep confetti on screen
-          // Add other optional properties from the "fire" function if desired
-        />
-      )}
 
       <div className={styles.container}>
         <div className={styles.header}>
@@ -491,7 +469,7 @@ useEffect(() => {
                 disabled={isLoadingARB || chainId !== 11155111} //also checking here if selected network is arbitrum or not? or if transaction loading, then making the button disabled.
               >
                 {isLoadingARB ? (
-                  <span>Minting...</span> // Replace with your custom loading indicator (e.g., spinner)
+                  <span>Minting Your Thanks Passes on Blockchain...</span> // Replace with your custom loading indicator (e.g., spinner)
                 ) : (
                   <>
                     Mint {amountARB} {tokenBalanceARB?.symbol} <br />
