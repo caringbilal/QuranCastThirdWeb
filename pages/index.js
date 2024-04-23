@@ -321,8 +321,8 @@ useEffect(() => {
             )}
             <div className={styles.cardText}>
               <h2 className={styles.gradientText2}>Mint on Optimism ➜</h2>
-              <p style={{ fontSize: '14px' }}>Founder's Club Tier-1: Optimism</p>
-              <p><b> Founder&apos;s Club OP Thanks Passes: 350,000 </b></p>
+              <p style={{ fontSize: "14px" }}>Founder&#39;s Club Tier-1: Optimism</p>
+              <p><b> Founder&#39;s Club OP Thanks Passes: 350,000 </b></p>
               <p>Total Passes Minted on Optimism: {tokenSupplyOP?.displayValue} {tokenSupplyOP?.symbol}</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
               <div className="progress-container">
@@ -388,8 +388,8 @@ useEffect(() => {
             )}
             <div className={styles.cardText}>
               <h2 className={styles.gradientText1}>Mint on Arbitrum ➜</h2>
-              <p style={{ fontSize: '14px' }}>Founder's Club Tier-2: Arbitrum</p>
-              <p><b> Founder&apos;s Club ARB Thanks Passes: 350,000 </b></p>
+              <p style={{ fontSize: "14px" }}>Founder&#39;s Club Tier-2: Arbitrum</p>
+              <p><b> Founder&#39;s Club ARB Thanks Passes: 350,000 </b></p>
               {/* <p>Total Passes Minted on Arbitrum: {tokenSupplyARB?.displayValue} {tokenSupplyARB?.symbol}</p> */}
               <p>Total Passes Minted on Arbitrum: 0</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
@@ -455,8 +455,8 @@ useEffect(() => {
             )}
             <div className={styles.cardText}>
               <h2 className={styles.gradientText3}>Mint on Base ➜</h2>
-              <p style={{ fontSize: '14px' }}>Founder's Club Tier-3: Base</p>
-              <p><b> Founder&apos;s Club BASE Thanks Passes: 350,000 </b></p>
+              <p style={{ fontSize: "14px" }}>Founder&#39;s Club Tier-3: Base</p>
+              <p><b> Founder&#39;s Club BASE Thanks Passes: 350,000 </b></p>
               {/* <p>Total Passes Minted on Base: {tokenSupplyBASE?.displayValue} {tokenSupplyBASE?.symbol}</p> */}
               <p>Total Passes Minted on Arbitrum: 0</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
@@ -513,8 +513,8 @@ useEffect(() => {
             )}
             <div className={styles.cardText}>
               <h2 className={styles.gradientText3}>Mint on Binance Smart Chain ➜</h2>
-              <p style={{ fontSize: '14px' }}>Founder's Club Tier-4: BSC</p>
-              <p><b> Founder&apos;s Club BSC Thanks Passes: 350,000 </b></p>
+              <p style={{ fontSize: "14px" }}>Founder&#39;s Club Tier-4: BSC</p>
+              <p><b> Founder&#39;s Club BSC Thanks Passes: 350,000 </b></p>
               {/* <p>Total Passes Minted on BSC: {tokenSupplyBSC?.displayValue} {tokenSupplyBSC?.symbol}</p> */}
               <p>Total Passes Minted on BSC: 0</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
