@@ -19,24 +19,24 @@ export default function Home() {
   const [amountBASE, setAmountBASE] = useState(0); //adding 0 here shows 0 in input field + I have to add 3 more Amounts for other Chains Input Sliders
   //Amount variable for Optimism Section
   const [amountBSC, setAmountBSC] = useState(0); //adding 0 here shows 0 in input field + I have to add 3 more Amounts for other Chains Input Sliders
-  //Amount variable for BASE Seploia Section
-  const [amountBSP, setAmountBSP] = useState(0); //adding 0 here shows 0 in input field + I have to add 3 more Amounts for other Chains Input Sliders
 
 
   //adding below constants as per youtube tutorial
   const address = useAddress(); //address of the connected user wallet
 
   //The Below is the Optimism Contract
-  const tokenDropOP = useContract("0xFA101ec963573964f3c5D34a899842E34409C1c8", "token-drop").contract; //2nd contract also deployed on Sepolia TestNet as other test nets were not working
+  const tokenDropOP = useContract("0x26fEA66d1962566f6D4Fb7BDFF653b7D6159F41A", "token-drop").contract; //2nd contract also deployed on Sepolia TestNet as other test nets were not working
   //get the token supply from the contract - the tokens which have been sold till now
   const { data: tokenSupplyOP } = useTokenSupply(tokenDropOP);
   //get the token Balance of the connected User Wallet from the contract
   const { data: tokenBalanceOP } = useTokenBalance(tokenDropOP, address);
   //this mutate fucntion will actually execute blockchain transaction
   const { mutate: claimTokensOP, isLoading: isLoadingOP } = useClaimToken(tokenDropOP);
+  //printing in console the details of the loaded contract
+  console.log("tokenDropOP Loaded:", tokenDropOP);//this returns the whole contract object
 
   //The Below is the BASE Contract
-  const tokenDropBASE = useContract("0xFA101ec963573964f3c5D34a899842E34409C1c8", "token-drop").contract; //2nd contract also deployed on Sepolia TestNet as other test nets were not working
+  const tokenDropBASE = useContract("0x26fEA66d1962566f6D4Fb7BDFF653b7D6159F41A", "token-drop").contract; //2nd contract also deployed on Sepolia TestNet as other test nets were not working
   //get the token supply from the contract - the tokens which have been sold till now
   const { data: tokenSupplyBASE } = useTokenSupply(tokenDropBASE);
   //get the token Balance of the connected User Wallet from the contract
@@ -45,7 +45,7 @@ export default function Home() {
   const { mutate: claimTokensBASE, isLoading: isLoadingBASE } = useClaimToken(tokenDropBASE);
 
   //The Below is the BNB Contract
-  const tokenDropBSC = useContract("0xFA101ec963573964f3c5D34a899842E34409C1c8", "token-drop").contract; //2nd contract also deployed on Sepolia TestNet as other test nets were not working
+  const tokenDropBSC = useContract("0x26fEA66d1962566f6D4Fb7BDFF653b7D6159F41A", "token-drop").contract; //2nd contract also deployed on Sepolia TestNet as other test nets were not working
   //get the token supply from the contract - the tokens which have been sold till now
   const { data: tokenSupplyBSC } = useTokenSupply(tokenDropBSC);
   //get the token Balance of the connected User Wallet from the contract
@@ -53,35 +53,21 @@ export default function Home() {
   //this mutate fucntion will actually execute blockchain transaction
   const { mutate: claimTokensBSC, isLoading: isLoadingBSC } = useClaimToken(tokenDropBSC);
 
-  //The Below is the BASE Sepolia Contract - Contract not loading from Thirdweb - 15-APR-24
-  //working fine using the sample contract on deployed contract page button
-  const tokenDropBSP = useContract("0xFA101ec963573964f3c5D34a899842E34409C1c8", "token-drop").contract; //2nd contract also deployed on Sepolia TestNet as other test nets were not working
-  //get the token supply from the contract - the tokens which have been sold till now
-  const { data: tokenSupplyBSP } = useTokenSupply(tokenDropBSP);
-  //get the token Balance of the connected User Wallet from the contract
-  const { data: tokenBalanceBSP } = useTokenBalance(tokenDropBSP, address);
-  //this mutate fucntion will actually execute blockchain transaction
-  const { mutate: claimTokensBSP, isLoading: isLoadingBSP } = useClaimToken(tokenDropBSP);
-
   //Setting up Sold Tokens Slider for Optimism Chain for 1st Tier - dummy data for now 19-MAR-24
-  const totalTokensForSaleOPTier1 = 3470;
+  const totalTokensForSaleOPTier1 = 35000000;//changing value to show 0% on the progress bar
   const tokensSoldOP = tokenSupplyOP?.displayValue;
   const percentageSoldOP = (tokensSoldOP / totalTokensForSaleOPTier1) * 100;
 
   //Setting up Sold Tokens Slider for Base Chain for 1st Tier - dummy data for now 19-MAR-24
-  const totalTokensForSaleBASETier1 = 2070;
+  const totalTokensForSaleBASETier1 = 35000000;//changing value to show 0% on the progress bar
   const tokensSoldBASE = tokenSupplyBASE?.displayValue;
   const percentageSoldBASE = (tokensSoldBASE / totalTokensForSaleBASETier1) * 100;
 
   //Setting up Sold Tokens Slider for BSC Chain for 1st Tier - dummy data for now 19-MAR-24
-  const totalTokensForSaleBSCTier1 = 1470;
+  const totalTokensForSaleBSCTier1 = 35000000;//changing value to show 0% on the progress bar
   const tokensSoldBSC = tokenSupplyBSC?.displayValue;
   const percentageSoldBSC = (tokensSoldBSC / totalTokensForSaleBSCTier1) * 100;
 
-  //Setting up Sold Tokens Slider for BASE Seploia Chain for 1st Tier - 15-APR-24
-  const totalTokensForSaleBSPTier1 = 1437;
-  const tokensSoldBSP = tokenSupplyBSP?.displayValue;
-  const percentageSoldBSP = (tokensSoldBSP / totalTokensForSaleBSPTier1) * 100;
 
 // Network information using Thirdweb
 const [isLoading, setIsLoading] = useState(false); // Initialize isLoading state
@@ -98,17 +84,17 @@ console.log("Chain ID:", chainId);
 const getNetworkNameFromChainId = (chainId) => {
   switch (chainId) {
     case 11155111:
-      return "seploia";
+      return "Sepolia";
     case 42161:
-      return "arbitrum";
+      return "Arbitrum";
     case 56:
-      return "bnb";
+      return "BSC";
     case 10:
-      return "optimism";
+      return "Optimism";
     case 8453:
-      return "base";
+      return "Base";
     case 84532:
-      return "base-seploia";
+      return "Base-seploia";
     case 1:
         return "Ethereum";      
         // Add mappings for other supported chains here
@@ -141,7 +127,7 @@ useEffect(() => {
 
 //moving all Constants after the contract is set into one single variable
   //this is to store my created contract address from ThirdWeb = The Below is the Arbitrum Contract
-  const tokenDropARB = useContract("0xFA101ec963573964f3c5D34a899842E34409C1c8", "token-drop").contract;
+  const tokenDropARB = useContract("0x26fEA66d1962566f6D4Fb7BDFF653b7D6159F41A", "token-drop").contract;
   //get the token supply from the contract - the tokens which have been sold till now
   const { data: tokenSupplyARB } = useTokenSupply(tokenDropARB);
   //get the token Balance of the connected User Wallet from the contract
@@ -155,7 +141,7 @@ useEffect(() => {
   //console.log("tokenDropARB:", tokenDropARB.contractWrapper.address);
 
   //Setting up Sold Tokens Slider for Arbitrun Chain for 1st Tier - dummy data for now 19-MAR-24
-  const totalTokensForSaleARBTier1 = 1370;
+  const totalTokensForSaleARBTier1 = 35000000;
   const tokensSoldARB = tokenSupplyARB?.displayValue;
   const percentageSoldARB = (tokensSoldARB / totalTokensForSaleARBTier1) * 100;
 
@@ -194,6 +180,24 @@ useEffect(() => {
     });
   };
 
+  //handling Confetti Animation + Playing congrats sound + Displaying success message
+    const handleClaimOP = async () => {
+      // ... logic for claiming tokens on Arbitrum
+  
+      SUCCESS_SOUND.current.play().catch(error => console.error('Audio playback error:', error));
+  
+      Swal.fire({
+        title: 'Mint Successful!',
+        text: "You've successfully minted " + amountOP + " " + tokenBalanceOP?.symbol + "!\n" +
+              "\nAdd below Contract to MetaMask Wallet to view your passes:\n" +
+              tokenDropOP.contractWrapper.address,
+        icon: 'success',
+        customClass: {
+          confirmButton: 'swal-button success-button',
+        },
+        showCancelButton: false,
+      });
+    };
 
   return (
 
@@ -280,17 +284,6 @@ useEffect(() => {
                     (Network: {networkName})
                   </span>
                 )}
-                {/*{errorMessage && <span style={{ color: 'red' }}>{errorMessage}</span>} THIS LINE was to show errormessage when I had implemented Ethers Library instead of Thirdweb*/}
-                {/* {chainId && <span style={{ marginLeft: 10 }}>(Chain ID: {chainId})</span>}
-                {tokenDropARB ? (
-                  <span style={{ marginLeft: 10 }}>
-                    (Contract Address: {tokenDropARB.contractWrapper.address})
-                  </span>
-                ) : (
-                  <span style={{ marginLeft: 10, color: "red" }}>
-                    Contract not found for this network
-                  </span>
-                )} */}
                 {chainId?.isLoading && <p>Fetching network information...</p>}
                 
               </p>
@@ -311,7 +304,7 @@ useEffect(() => {
           {/* Below is a section for Minting on Optimism */}
           <div className={styles.card}>
             {/* I am changing the bkg picture based on selected network */}
-            {chainId === 10 ? (
+            {chainId === 11155111 ? (
               <Image
                 src="/images/OpBKG.png"
                 alt="Placeholder preview of templates"
@@ -329,7 +322,7 @@ useEffect(() => {
             <div className={styles.cardText}>
               <h2 className={styles.gradientText2}>Mint on Optimism ➜</h2>
               <p style={{ fontSize: '14px' }}>Founder's Club Tier-1: Optimism</p>
-              <p><b> Founder&apos;s Club Thanks Pass on Optimism: 350,000 </b></p>
+              <p><b> Founder&apos;s Club OP Thanks Passes: 350,000 </b></p>
               <p>Total Passes Minted on Optimism: {tokenSupplyOP?.displayValue} {tokenSupplyOP?.symbol}</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
               <div className="progress-container">
@@ -349,19 +342,27 @@ useEffect(() => {
                 onChange={e => setAmountOP(e.target.value)}
                 className="nice-input"
               />
-              {/*Revised Button code with help of chatGPT*/}
-              <button
-                className={`nice-button ${chainId !== 10 ? 'disabled' : ''}`} //also checking here if selected network is optimism or not?
+              {/*Revised Button based on updated button of Arbitrum/Sepolia Testing*/}
+
+              <button className={`nice-button ${chainId !== 11155111 ? 'disabled' : ''}`} //also checking here if selected network is arbitrum or not? TESTING with SEPOLIA ID
                 onClick={() => claimTokensOP(
-                  { amount: amountARB, to: address },
-                  { onSuccess: () => setAmountOP('0') },
+                  { amount: amountOP, to: address },
+                  
+                    { onSuccess: handleClaimOP }, // Call handleClaimARB on success
+
                   { onError: () => setErrorMessage('An error occurred.') }
                 )
                 }
-                disabled={isLoadingOP || chainId !== 10} //also checking here if selected network is optimism or not? or if transaction loading, then making the button disabled.
+                disabled={isLoadingOP || chainId !== 11155111} //also checking here if selected network is arbitrum or not? or if transaction loading, then making the button disabled.
               >
-                Mint {amountOP} {tokenBalanceOP?.symbol}<br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
-                for {(amountOP * 0.00238).toFixed(4)} USDC
+                {isLoadingOP ? (
+                  <span>Minting Your Thanks Passes on Blockchain...</span> // Replace with your custom loading indicator (e.g., spinner)
+                ) : (
+                  <>
+                    Mint {amountOP} {tokenBalanceOP?.symbol} <br />
+                    for {(amountOP * 0.714).toFixed(4)} USDC
+                  </>
+                )}
               </button>
             </div>
           </div>
@@ -370,7 +371,7 @@ useEffect(() => {
           {/* Below is a section for Minting on Arbitrum+testing with Sepolia ID 11155111 */}
           <div className={styles.card}>
             {/* I am changing the bkg picture based on selected network */}
-            {chainId === 11155111 ? (
+            {chainId === 0 ? (
               <Image
                 src="/images/ArbBKG.png"
                 alt="Placeholder preview of templates"
@@ -388,8 +389,9 @@ useEffect(() => {
             <div className={styles.cardText}>
               <h2 className={styles.gradientText1}>Mint on Arbitrum ➜</h2>
               <p style={{ fontSize: '14px' }}>Founder's Club Tier-2: Arbitrum</p>
-              <p><b> Founder&apos;s Club Thanks Pass on Arbitrum: 350,000 </b></p>
-              <p>Total Passes Minted on Arbitrum: {tokenSupplyARB?.displayValue} {tokenSupplyARB?.symbol}</p>
+              <p><b> Founder&apos;s Club ARB Thanks Passes: 350,000 </b></p>
+              {/* <p>Total Passes Minted on Arbitrum: {tokenSupplyARB?.displayValue} {tokenSupplyARB?.symbol}</p> */}
+              <p>Total Passes Minted on Arbitrum: 0</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
               <div className="progress-container">
                 <div
@@ -400,7 +402,8 @@ useEffect(() => {
                 </div> {/*I had to move the Dive down to make the progress label inside the Bar*/}
               </div><br />
               {/*Percentage Slider Bar end here*/}
-              <p>Your Passes: {tokenBalanceARB?.displayValue} {tokenBalanceARB?.symbol}</p>
+              {/* <p>Your Passes: {tokenBalanceARB?.displayValue} {tokenBalanceARB?.symbol}</p> */}
+              <p>Your Passes: 0</p>
               <h1>Mint on Arbitrum</h1>
               <input
                 type="number"
@@ -408,7 +411,8 @@ useEffect(() => {
                 onChange={e => setAmountARB(e.target.value)}
                 className="nice-input"
               />
-              <button className={`nice-button ${chainId !== 11155111 ? 'disabled' : ''}`} //also checking here if selected network is arbitrum or not? TESTING with SEPOLIA ID
+              {/*Added 0 as ChainId to hide this till next phase*/}
+              <button className={`nice-button ${chainId !== 0 ? 'disabled' : ''}`} //also checking here if selected network is arbitrum or not? TESTING with SEPOLIA ID
                 onClick={() => claimTokensARB(
                   { amount: amountARB, to: address },
                   
@@ -417,14 +421,14 @@ useEffect(() => {
                   { onError: () => setErrorMessage('An error occurred.') }
                 )
                 }
-                disabled={isLoadingARB || chainId !== 11155111} //also checking here if selected network is arbitrum or not? or if transaction loading, then making the button disabled.
+                disabled={isLoadingARB || chainId !== 0} //also checking here if selected network is arbitrum or not? or if transaction loading, then making the button disabled.
               >
                 {isLoadingARB ? (
                   <span>Minting Your Thanks Passes on Blockchain...</span> // Replace with your custom loading indicator (e.g., spinner)
                 ) : (
                   <>
                     Mint {amountARB} {tokenBalanceARB?.symbol} <br />
-                    for {(amountARB * 0.00238).toFixed(4)} USDC
+                    for {(amountARB * 0.714).toFixed(4)} USDC
                   </>
                 )}
               </button>
@@ -434,7 +438,7 @@ useEffect(() => {
           {/* Below is a section for Minting on Base */}
           <div className={styles.card}>
             {/* I am changing the bkg picture based on selected network */}
-            {chainId === 8453 ? (
+            {chainId === 0 ? (
               <Image
                 src="/images/BaseBKG.png"
                 alt="Placeholder preview of templates"
@@ -452,8 +456,9 @@ useEffect(() => {
             <div className={styles.cardText}>
               <h2 className={styles.gradientText3}>Mint on Base ➜</h2>
               <p style={{ fontSize: '14px' }}>Founder's Club Tier-3: Base</p>
-              <p><b> Founder&apos;s Club Thanks Pass on Base: 350,000 </b></p>
-              <p>Total Passes Minted on Base: {tokenSupplyBASE?.displayValue} {tokenSupplyBASE?.symbol}</p>
+              <p><b> Founder&apos;s Club BASE Thanks Passes: 350,000 </b></p>
+              {/* <p>Total Passes Minted on Base: {tokenSupplyBASE?.displayValue} {tokenSupplyBASE?.symbol}</p> */}
+              <p>Total Passes Minted on Arbitrum: 0</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
               <div className="progress-container">
                 <div
@@ -464,7 +469,8 @@ useEffect(() => {
                 </div> {/*I had to move the Dive down to make the progress label inside the Bar*/}
               </div><br />
               {/*Percentage Slider Bar end here*/}
-              <p>Your Passes: {tokenBalanceBASE?.displayValue} {tokenBalanceBASE?.symbol}</p>
+              {/* <p>Your Passes: {tokenBalanceBASE?.displayValue} {tokenBalanceBASE?.symbol}</p> */}
+              <p>Your Passes: 0</p>
               <h1>Mint on Base</h1>
               <input
                 type="number"
@@ -472,14 +478,15 @@ useEffect(() => {
                 onChange={e => setAmountBASE(e.target.value)}
                 className="nice-input"
               />
-              <button className={`nice-button ${chainId !== 8453 ? 'disabled' : ''}`} //also checking here if selected network is base or not?
+              {/*Added 0 as ChainId to hide this till next phase*/}
+              <button className={`nice-button ${chainId !== 0 ? 'disabled' : ''}`} //also checking here if selected network is base or not?
                 onClick={() => claimTokensBASE(
                   { amount: amountBASE, to: address },
                   { onSuccess: () => setAmountBASE('0') },
                   { onError: () => setErrorMessage('An error occurred.') }
                 )
                 }
-                disabled={isLoadingBASE || chainId !== 8453} //also checking here if selected network is base or not? or if transaction loading, then making the button disabled.
+                disabled={isLoadingBASE || chainId !== 0} //also checking here if selected network is base or not? or if transaction loading, then making the button disabled.
               >Mint {amountBASE} {tokenBalanceBASE?.symbol}<br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
                 for {(amountBASE * 0.00238).toFixed(4)} USDC
               </button>
@@ -507,8 +514,9 @@ useEffect(() => {
             <div className={styles.cardText}>
               <h2 className={styles.gradientText3}>Mint on Binance Smart Chain ➜</h2>
               <p style={{ fontSize: '14px' }}>Founder's Club Tier-4: BSC</p>
-              <p><b> Founder&apos;s Club Thanks Pass on BSC: 350,000 </b></p>
-              <p>Total Passes Minted on BSC: {tokenSupplyBSC?.displayValue} {tokenSupplyBSC?.symbol}</p>
+              <p><b> Founder&apos;s Club BSC Thanks Passes: 350,000 </b></p>
+              {/* <p>Total Passes Minted on BSC: {tokenSupplyBSC?.displayValue} {tokenSupplyBSC?.symbol}</p> */}
+              <p>Total Passes Minted on BSC: 0</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
               <div className="progress-container">
                 <div
@@ -519,7 +527,8 @@ useEffect(() => {
                 </div> {/*I had to move the Dive down to make the progress label inside the Bar*/}
               </div><br />
               {/*Percentage Slider Bar end here*/}
-              <p>Your Passes: {tokenBalanceBSC?.displayValue} {tokenBalanceBSC?.symbol}</p>
+              {/* <p>Your Passes: {tokenBalanceBSC?.displayValue} {tokenBalanceBSC?.symbol}</p> */}
+              <p>Your Passes: 0</p>
               <h1>Mint on BSC</h1>
               <input
                 type="number"
@@ -527,14 +536,15 @@ useEffect(() => {
                 onChange={e => setAmountBSC(e.target.value)}
                 className="nice-input"
               />
-              <button className={`nice-button ${chainId !== 56 ? 'disabled' : ''}`} //also checking here if selected network is bnb or not?
+              {/*Added 0 as ChainId to hide this till next phase*/}
+              <button className={`nice-button ${chainId !== 0 ? 'disabled' : ''}`} //also checking here if selected network is bnb or not?
                 onClick={() => claimTokensBSC(
                   { amount: amountARB, to: address },
                   { onSuccess: () => setAmountBSC('0') },
                   { onError: () => setErrorMessage('An error occurred.') }
                 )
                 }
-                disabled={isLoadingBSC || chainId !== 56} //also checking here if selected network is bnb or not? or if transaction loading, then making the button disabled.
+                disabled={isLoadingBSC || chainId !== 0} //also checking here if selected network is bnb or not? or if transaction loading, then making the button disabled.
               >Mint {amountBSC} {tokenBalanceBSC?.symbol}<br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
                 for {(amountBSC * 0.00238).toFixed(4)} USDC
               </button>
