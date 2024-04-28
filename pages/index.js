@@ -239,7 +239,14 @@ useEffect(() => {
             </a>
             <br /><br />
             Total Planned Raised Amount: 7 Million USDC<br />
-            By participating in this campaign, your Ajar is secured, the moment your transaction is confirmed on Blockchain! May your participation blossom into a future filled with worldly rewards. <br /><br />
+            By participating in this campaign, your Ajar is secured, the moment your transaction is confirmed on Blockchain! <br /><br />
+            
+            <b>Raised funds will help in:</b>{' '} <br />1. App Development <br />
+            2. App Maintenance<br />
+            3. App Marketing<br />
+            4. Sponsoring free Quran Classes <br />
+            6. Rewards for Content Viewers, Content Creators and Content Moderators<br /><br />
+            
             We plan to raise these funds in 3 Tiers, i.e.<br /><br />
 
             {" "}<code className={styles.code}>Founder&apos;s Club - In Progress:</code>
