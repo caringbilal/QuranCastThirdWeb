@@ -25,7 +25,7 @@ export default function Home() {
   const address = useAddress(); //address of the connected user wallet
 
   //The Below is the Optimism Contract
-  const tokenDropOP = useContract("0x26fEA66d1962566f6D4Fb7BDFF653b7D6159F41A", "token-drop").contract; //2nd contract also deployed on Sepolia TestNet as other test nets were not working
+  const tokenDropOP = useContract("0xFC9C5A4Db2b21cBDC92574ca9daccA5645A7EC18", "token-drop").contract; //2nd contract also deployed on Sepolia TestNet as other test nets were not working
   //get the token supply from the contract - the tokens which have been sold till now
   const { data: tokenSupplyOP } = useTokenSupply(tokenDropOP);
   //get the token Balance of the connected User Wallet from the contract
@@ -34,6 +34,8 @@ export default function Home() {
   const { mutate: claimTokensOP, isLoading: isLoadingOP } = useClaimToken(tokenDropOP);
   //printing in console the details of the loaded contract
   console.log("tokenDropOP Loaded:", tokenDropOP);//this returns the whole contract object
+  console.log("tokenDropOP tokenSupply:", tokenSupplyOP);//this returns the tokenSupplyOP
+  console.log("tokenDropOP tokenBalanceOP:", tokenBalanceOP);//this returns the tokenBalanceOP
 
   //The Below is the BASE Contract
   const tokenDropBASE = useContract("0x26fEA66d1962566f6D4Fb7BDFF653b7D6159F41A", "token-drop").contract; //2nd contract also deployed on Sepolia TestNet as other test nets were not working
@@ -111,10 +113,10 @@ console.log("Network Name:", networkName);
 //useEffect hook to handle loading and errors
 //Effect 1 (Network Change Detection):
 useEffect(() => {
-  // Update isLoading and error based on Thirdweb object properties
-  setIsLoading(chainId?.isLoading);
-  setErrorMessage(chainId?.error);
-  //console.log("Network Name:", networkName);
+  if (chainId) { // Check if chainId exists before accessing its properties
+    setIsLoading(chainId.isLoading);
+    setErrorMessage(chainId.error);
+  }
 }, [chainId, networkName]); // Use chainId as a single dependency
 
 
@@ -136,6 +138,8 @@ useEffect(() => {
   const { mutate: claimTokensARB, isLoading: isLoadingARB } = useClaimToken(tokenDropARB);
   //printing in console the details of the loaded contract
   console.log("tokenDropARB Loaded:", tokenDropARB);//this returns the whole contract object
+  console.log("tokenDropARB tokenSupply:", tokenSupplyARB);//this returns the tokenSupplyOP
+  console.log("tokenDropARB tokenBalanceOP:", tokenBalanceARB);//this returns the tokenBalanceOP
   //printing below the contract address in console and also used the same command to display on HTML Page
   //below line doesn't work if the page is loading for the first time
   //console.log("tokenDropARB:", tokenDropARB.contractWrapper.address);
@@ -198,6 +202,9 @@ useEffect(() => {
         showCancelButton: false,
       });
     };
+
+    //trying to add visitor counter to the webpage = added environment variable into VERCEL first
+    //const visitorCounterKV = new KVNamespace(process.env.VERCEL_KV_VISITOR_COUNTER);
 
   return (
 
@@ -311,7 +318,7 @@ useEffect(() => {
           {/* Below is a section for Minting on Optimism */}
           <div className={styles.card}>
             {/* I am changing the bkg picture based on selected network */}
-            {chainId === 11155111 ? (
+            {chainId === 10 ? (
               <Image
                 src="/images/OpBKG.png"
                 alt="Placeholder preview of templates"
@@ -351,7 +358,7 @@ useEffect(() => {
               />
               {/*Revised Button based on updated button of Arbitrum/Sepolia Testing*/}
 
-              <button className={`nice-button ${chainId !== 11155111 ? 'disabled' : ''}`} //also checking here if selected network is arbitrum or not? TESTING with SEPOLIA ID
+              <button className={`nice-button ${chainId !== 10 ? 'disabled' : ''}`} //also checking here if selected network is arbitrum or not? TESTING with SEPOLIA ID
                 onClick={() => claimTokensOP(
                   { amount: amountOP, to: address },
                   
@@ -360,7 +367,7 @@ useEffect(() => {
                   { onError: () => setErrorMessage('An error occurred.') }
                 )
                 }
-                disabled={isLoadingOP || chainId !== 11155111} //also checking here if selected network is arbitrum or not? or if transaction loading, then making the button disabled.
+                disabled={isLoadingOP || chainId !== 10} //also checking here if selected network is arbitrum or not? or if transaction loading, then making the button disabled.
               >
                 {isLoadingOP ? (
                   <span>Minting Your Thanks Passes on Blockchain...</span> // Replace with your custom loading indicator (e.g., spinner)
@@ -562,6 +569,59 @@ useEffect(() => {
 
 
       </div>
+      
+      { /* FAQ Section */}
+      <div className={styles.description}>
+
+      <b>Frequently Asked Questions (FAQs)</b><br />
+
+            <ul>
+              <li>
+                What is Qurancast and how does it differ from other social media apps?
+                <ul>
+                  <li>Qurancast has many features which differentiates it from other Social Media Platforms, i.e. </li>
+                  <li>Unlike other platforms where dubbed videos are created, we give our users options to practice within our app and then submit their own improved recitation videos.</li>
+                  <li>In other platofrms, Quran Recitations videos are mixed with all kinds of music or other videos, but our platform is only dedicated to Holy Quran Recitation Videos.</li>
+                  <li>We reward all kinds of users in our app, i.e. if you are only viewing videos, if you are creating videos, or if you are supporting our platform as Quran Teachers.</li>
+                  <li>Our platform is free to use for everyone.</li>
+                </ul>
+              </li>
+              <li>
+                What are Thanks Passes?
+                <ul>
+                  <li>Thanks Passes are simply digital receipts issued to your wallet for your support to our project.</li>
+                  <li>In the future these digital receipts may be used within our application for different purposes, so keep these receipts safe in your web-3 wallets.</li>
+                </ul>
+              </li>
+              <li>
+                How can I participate in the ThanksPass generation event and what are the benefits of supporting our project?
+                <ul>
+                  <li>ThanksPass generation event is comprised of 3 Tiers, i.e. Founder&#39;ss Club, Early Adopter&#39;ss Club, and Genesis Club</li>
+                  <li>Each of the 3 Tiers is further divided into 4 Sub Tiers launched on 4 EVM Compatible Chains, i.e. Optimism, Arbitrum, Base and BSC Chain.</li>
+                  <li>Based on the current in-progress Tier, you need to select that chain in metamask and then you can mint any number of Thanks Passes on that chain</li>
+                  <li>With these raised funds, you are helping us to scale our project to new heights, supporting free Quran Classes for everyone and also converting our project into a DAO.</li>
+                </ul>
+              </li>
+              <li>
+                When is the Qurancast application expected to launch, and what can the users anticipate?
+                <ul>
+                  <li>Our Application is Live since 2019 with more than 350,000 downloads.</li>
+                  <li>You can download our app and start benefiting from the app by either, simply watching videos, or creating recitation videos or you can also apply through our website to become part of our teaching team.</li>
+                </ul>
+              </li>
+              <li>
+                6. How can I stay updated on Qurancast&#39;ss latest news and developments?
+                <ul>
+                  <li>You can follow us on all the official social media handles mentioned on our <a href="https://qurancast.co/" target="_blank" rel="noopener noreferrer">
+              website</a>.</li>
+                  <li>Or you can join our <a href="https://discord.gg/D8UA5n3Czu" target="_blank" rel="noopener noreferrer">Discord</a> Community and become an active community member.<br />
+                  </li>
+                </ul>
+              </li>
+            </ul>
+
+          </div>
+
     </main >
 
   );
