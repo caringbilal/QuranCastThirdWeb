@@ -235,14 +235,9 @@ useEffect(() => {
             </a> |{' '}
             <a href="https://twitter.com/quran_cast" target="_blank" rel="noopener noreferrer">
               Twitter
-            </a>
-            <br />
-            <b>Official Web3 Addresses:</b>{' '}
-            <a href="https://etherscan.io/address/qurancast.eth" target="_blank" rel="noopener noreferrer">
-              qurancast.eth
             </a> |{' '}
-            <a href="https://explorer.solana.com/address/B48Pw11GoLomJ4F3xWQN5x3afBxcmSFyHfQgbKTXTCrQ" target="_blank" rel="noopener noreferrer">
-              qurancat.sol
+            ⟠<a href="https://etherscan.io/address/qurancast.eth" target="_blank" rel="noopener noreferrer">
+              qurancast.eth
             </a>
             <br /><br />
             Total Planned Raised Amount: 7 Million USDC<br />
