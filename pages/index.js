@@ -610,7 +610,7 @@ useEffect(() => {
                 </ul>
               </li>
               <li>
-                6. How can I stay updated on Qurancast&#39;ss latest news and developments?
+                How can I stay updated on Qurancast&#39;ss latest news and developments?
                 <ul>
                   <li>You can follow us on all the official social media handles mentioned on our <a href="https://qurancast.co/" target="_blank" rel="noopener noreferrer">
               website</a>.</li>
