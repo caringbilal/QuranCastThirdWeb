@@ -613,6 +613,14 @@ useEffect(() => {
                   </li>
                 </ul>
               </li>
+              <li>
+                Disclaimer:
+                <ul>
+                  <li>As Thanks Passes are issued on Blockchain, and some jurisdictions may consider these as unregulated, so if your jurisdiction doesn't allow you to participate in such campaigns, you should not support us by minting these Thanks Passes.</li>
+                  <li>You can donate directly to our official ETH Wallet, i.e. <a href="https://etherscan.io/address/qurancast.eth" target="_blank" rel="noopener noreferrer">qurancast.eth</a><br />
+                  </li>
+                </ul>
+              </li>
             </ul>
 
           </div>
