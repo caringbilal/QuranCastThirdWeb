@@ -572,7 +572,7 @@ useEffect(() => {
 
             <ul>
               <li>
-                What is Qurancast and how does it differ from other social media apps?
+              <code className={styles.codeDisabled} style={{ fontSize: '1rem' }}>What is Qurancast and how does it differ from other social media apps?</code>
                 <ul>
                   <li>Qurancast has many features which differentiates it from other Social Media Platforms, i.e. </li>
                   <li>Unlike other platforms where dubbed videos are created, we give our users options to practice within our app and then submit their own improved recitation videos.</li>
@@ -582,30 +582,40 @@ useEffect(() => {
                 </ul>
               </li>
               <li>
-                What are Thanks Passes?
+              <code className={styles.codeDisabled} style={{ fontSize: '1rem' }}>What is Qurancast and how does it differ from other social media apps?What are Thanks Passes?</code>
                 <ul>
                   <li>Thanks Passes are simply digital receipts issued to your wallet for your support to our project.</li>
                   <li>In the future these digital receipts may be used within our application for different purposes, so keep these receipts safe in your web-3 wallets.</li>
                 </ul>
               </li>
               <li>
-                How can I participate in the ThanksPass generation event and what are the benefits of supporting our project?
+              <code className={styles.codeDisabled} style={{ fontSize: '1rem' }}>How can I participate in the ThanksPass generation event and what are the benefits of supporting our project?</code>
                 <ul>
                   <li>ThanksPass generation event is comprised of 3 Tiers, i.e. Founder&#39;ss Club, Early Adopter&#39;ss Club, and Genesis Club</li>
                   <li>Each of the 3 Tiers is further divided into 4 Sub Tiers launched on 4 EVM Compatible Chains, i.e. Optimism, Arbitrum, Base and BSC Chain.</li>
-                  <li>Based on the current in-progress Tier, you need to select that chain in metamask and then you can mint any number of Thanks Passes on that chain</li>
+                  <li>Based on the current in-progress Tier, you need to select that chain in metamask and then you can mint any number of Thanks Passes on that chain.</li>
                   <li>With these raised funds, you are helping us to scale our project to new heights, supporting free Quran Classes for everyone and also converting our project into a DAO.</li>
                 </ul>
               </li>
               <li>
-                When is the Qurancast application expected to launch, and what can the users anticipate?
+              <code className={styles.codeDisabled} style={{ fontSize: '1rem' }}>What are the exact steps to particiapte in this camapign?</code>
+                <ul>
+                  <li>You have to connect your web3 wallet, e.g. Metamask etc, soon we will also add option to use your Social Media accounts to connect and participate.</li>
+                  <li>After your web3 wallet is connected, you need to select the chain where the minting is Live, i.e. 1st chain is Optimism, 2nd will be Arbitrum, 3rd will be Base and 4th will be BSC.</li>
+                  <li>As we are rasing funds in USDC, if you don't have any USDC tokens in your wallet, then you first need to either convert your other tokens to USDC or move USDC from another account to the current wallet.</li>
+                  <li>Once you have USDC tokens, you can select any number of Passes and click the mint button.</li>
+                  <li>Once the transaction is confirmed, you will be shown the smart contract of the Pass, you will need to add that into your wallet in order to view the minted passes in your wallet.</li>
+                </ul>
+              </li>
+              <li>
+              <code className={styles.codeDisabled} style={{ fontSize: '1rem' }}>When is the Qurancast application expected to launch, and what can the users anticipate?</code>
                 <ul>
                   <li>Our Application is Live since 2019 with more than 350,000 downloads.</li>
                   <li>You can download our app and start benefiting from the app by either, simply watching videos, or creating recitation videos or you can also apply through our website to become part of our teaching team.</li>
                 </ul>
               </li>
               <li>
-                How can I stay updated on Qurancast&#39;ss latest news and developments?
+              <code className={styles.codeDisabled} style={{ fontSize: '1rem' }}>How can I stay updated on Qurancast&#39;ss latest news and developments?</code>
                 <ul>
                   <li>You can follow us on all the official social media handles mentioned on our <a href="https://qurancast.co/" target="_blank" rel="noopener noreferrer">
               website</a>.</li>
@@ -614,7 +624,7 @@ useEffect(() => {
                 </ul>
               </li>
               <li>
-                Disclaimer:
+              <code className={styles.codeDisabled} style={{ fontSize: '1rem' }}>Disclaimer:</code>
                 <ul>
                   <li>As Thanks Passes are issued on Blockchain, and some jurisdictions may consider these as unregulated, so if your jurisdiction doesn't allow you to participate in such campaigns, you should not support us by minting these Thanks Passes.</li>
                   <li>You can donate directly to our official ETH Wallet, i.e. <a href="https://etherscan.io/address/qurancast.eth" target="_blank" rel="noopener noreferrer">qurancast.eth</a><br />

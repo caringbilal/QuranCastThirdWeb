@@ -121,3 +121,26 @@ body {
   padding: 20px;
   /* Example: Add some padding */
 }
+
+.faq-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.faq-item {
+  cursor: pointer;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.faq-answer {
+  padding: 1rem;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out; /* Add transition for smooth expansion/collapse */
+}
+
+.faq-answer.expanded {
+  max-height: 1000px; /* Adjust the height as needed */
+}
