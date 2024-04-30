@@ -602,7 +602,7 @@ useEffect(() => {
                 <ul>
                   <li>You have to connect your web3 wallet, e.g. Metamask etc, soon we will also add option to use your Social Media accounts to connect and participate.</li>
                   <li>After your web3 wallet is connected, you need to select the chain where the minting is Live, i.e. 1st chain is Optimism, 2nd will be Arbitrum, 3rd will be Base and 4th will be BSC.</li>
-                  <li>As we are rasing funds in USDC, if you don't have any USDC tokens in your wallet, then you first need to either convert your other tokens to USDC or move USDC from another account to the current wallet.</li>
+                  <li>As we are rasing funds in USDC, if you don&#39;st have any USDC tokens in your wallet, then you first need to either convert your other tokens to USDC or move USDC from another account to the current wallet.</li>
                   <li>Once you have USDC tokens, you can select any number of Passes and click the mint button.</li>
                   <li>Once the transaction is confirmed, you will be shown the smart contract of the Pass, you will need to add that into your wallet in order to view the minted passes in your wallet.</li>
                 </ul>
@@ -626,7 +626,7 @@ useEffect(() => {
               <li>
               <code className={styles.codeDisabled} style={{ fontSize: '1rem' }}>Disclaimer:</code>
                 <ul>
-                  <li>As Thanks Passes are issued on Blockchain, and some jurisdictions may consider these as unregulated, so if your jurisdiction doesn't allow you to participate in such campaigns, you should not support us by minting these Thanks Passes.</li>
+                  <li>As Thanks Passes are issued on Blockchain, and some jurisdictions may consider these as unregulated, so if your jurisdiction doesn&#39;st allow you to participate in such campaigns, you should not support us by minting these Thanks Passes.</li>
                   <li>You can donate directly to our official ETH Wallet, i.e. <a href="https://etherscan.io/address/qurancast.eth" target="_blank" rel="noopener noreferrer">qurancast.eth</a><br />
                   </li>
                 </ul>
