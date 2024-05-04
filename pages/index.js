@@ -566,7 +566,7 @@ useEffect(() => {
       </div>
       
       { /* FAQ Section */}
-      <div className={styles.description}>
+      <div className={styles.container}>
 
       <b>Frequently Asked Questions (FAQs)</b><br />
 
@@ -582,7 +582,7 @@ useEffect(() => {
                 </ul>
               </li>
               <li>
-              <code className={styles.codeDisabled} style={{ fontSize: '1rem' }}>What is Qurancast and how does it differ from other social media apps?What are Thanks Passes?</code>
+              <code className={styles.codeDisabled} style={{ fontSize: '1rem' }}>What are Thanks Passes?</code>
                 <ul>
                   <li>Thanks Passes are simply digital receipts issued to your wallet for your support to our project.</li>
                   <li>In the future these digital receipts may be used within our application for different purposes, so keep these receipts safe in your web-3 wallets.</li>
