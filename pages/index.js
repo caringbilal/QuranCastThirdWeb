@@ -213,7 +213,7 @@ useEffect(() => {
       <div className={styles.container}>
         <div className={styles.header}>
           <h1 className={styles.title}>
-            Welcome to{" "}
+            Support {" "}
             <span className={styles.gradientText0}>
               <a
                 href="https://qurancast.co/"
@@ -222,7 +222,7 @@ useEffect(() => {
               >
                 QuranCast
               </a>
-            </span> ThanksPass Campaign.
+            </span> on Blockchain.
           </h1>
 
           <p className={styles.description}>
@@ -240,9 +240,12 @@ useEffect(() => {
               qurancast.eth
             </a>
             <br /><br />
-            Total Planned Raised Amount: 7 Million USDC<br />
-            By participating in this campaign, your Ajar is secured, the moment your transaction is confirmed on Blockchain! <br /><br />
-            
+            By participating in this campaign, you are supporting our project by contributing through USDC tokens on multiple blockchains.<br />
+            Once you Mint any number of ThanksPasses, those can be viewed in your metamask by adding the contract address of the selected blockchain.<br />
+            But these Thankspasses are simply your receipts of support for our project on Blockchain.<br /><br />
+
+            ⚠️ Notice: Qurancast has not issued any cryptocurrency tokens to date.<br /><br />
+
             <b>Raised funds will help in:</b>{' '} <br />1. App Development <br />
             2. App Maintenance<br />
             3. App Marketing<br />
@@ -585,7 +588,6 @@ useEffect(() => {
               <code className={styles.codeDisabled} style={{ fontSize: '1rem' }}>What are Thanks Passes?</code>
                 <ul>
                   <li>Thanks Passes are simply digital receipts issued to your wallet for your support to our project.</li>
-                  <li>In the future these digital receipts may be used within our application for different purposes, so keep these receipts safe in your web-3 wallets.</li>
                 </ul>
               </li>
               <li>
@@ -594,15 +596,14 @@ useEffect(() => {
                   <li>ThanksPass generation event is comprised of 3 Tiers, i.e. Founder&#39;ss Club, Early Adopter&#39;ss Club, and Genesis Club</li>
                   <li>Each of the 3 Tiers is further divided into 4 Sub Tiers launched on 4 EVM Compatible Chains, i.e. Optimism, Arbitrum, Base and BSC Chain.</li>
                   <li>Based on the current in-progress Tier, you need to select that chain in metamask and then you can mint any number of Thanks Passes on that chain.</li>
-                  <li>With these raised funds, you are helping us to scale our project to new heights, supporting free Quran Classes for everyone and also converting our project into a DAO.</li>
                 </ul>
               </li>
               <li>
               <code className={styles.codeDisabled} style={{ fontSize: '1rem' }}>What are the exact steps to particiapte in this camapign?</code>
                 <ul>
                   <li>You have to connect your web3 wallet, e.g. Metamask etc, soon we will also add option to use your Social Media accounts to connect and participate.</li>
-                  <li>After your web3 wallet is connected, you need to select the chain where the minting is Live, i.e. 1st chain is Optimism, 2nd will be Arbitrum, 3rd will be Base and 4th will be BSC.</li>
-                  <li>As we are rasing funds in USDC, if you don&#39;st have any USDC tokens in your wallet, then you first need to either convert your other tokens to USDC or move USDC from another account to the current wallet.</li>
+                  <li>After your web3 wallet is connected, you need to select the chain where the minting is Live, i.e. Optimism, Arbitrum, Base and BSC.</li>
+                  <li>As we are rasing funds in USDC, if you don&#39;t have any USDC tokens in your wallet, then you first need to either convert your other tokens to USDC or move USDC from another account to the current wallet.</li>
                   <li>Once you have USDC tokens, you can select any number of Passes and click the mint button.</li>
                   <li>Once the transaction is confirmed, you will be shown the smart contract of the Pass, you will need to add that into your wallet in order to view the minted passes in your wallet.</li>
                 </ul>
