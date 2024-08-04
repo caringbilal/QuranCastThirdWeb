@@ -56,17 +56,17 @@ export default function Home() {
   const { mutate: claimTokensBSC, isLoading: isLoadingBSC } = useClaimToken(tokenDropBSC);
 
   //Setting up Sold Tokens Slider for Optimism Chain for 1st Tier - dummy data for now 19-MAR-24
-  const totalTokensForSaleOPTier1 = 35000000;//changing value to show 0% on the progress bar
+  const totalTokensForSaleOPTier1 = 500000;//changing value to show 0% on the progress bar
   const tokensSoldOP = tokenSupplyOP?.displayValue;
   const percentageSoldOP = (tokensSoldOP / totalTokensForSaleOPTier1) * 100;
 
   //Setting up Sold Tokens Slider for Base Chain for 1st Tier - dummy data for now 19-MAR-24
-  const totalTokensForSaleBASETier1 = 35000000;//changing value to show 0% on the progress bar
+  const totalTokensForSaleBASETier1 = 1500000;//changing value to show 0% on the progress bar
   const tokensSoldBASE = tokenSupplyBASE?.displayValue;
   const percentageSoldBASE = (tokensSoldBASE / totalTokensForSaleBASETier1) * 100;
 
   //Setting up Sold Tokens Slider for BSC Chain for 1st Tier - dummy data for now 19-MAR-24
-  const totalTokensForSaleBSCTier1 = 35000000;//changing value to show 0% on the progress bar
+  const totalTokensForSaleBSCTier1 = 3000000;//changing value to show 0% on the progress bar
   const tokensSoldBSC = tokenSupplyBSC?.displayValue;
   const percentageSoldBSC = (tokensSoldBSC / totalTokensForSaleBSCTier1) * 100;
 
@@ -145,7 +145,7 @@ useEffect(() => {
   //console.log("tokenDropARB:", tokenDropARB.contractWrapper.address);
 
   //Setting up Sold Tokens Slider for Arbitrun Chain for 1st Tier - dummy data for now 19-MAR-24
-  const totalTokensForSaleARBTier1 = 35000000;
+  const totalTokensForSaleARBTier1 = 1000000;
   const tokensSoldARB = tokenSupplyARB?.displayValue;
   const percentageSoldARB = (tokensSoldARB / totalTokensForSaleARBTier1) * 100;
 
@@ -246,23 +246,25 @@ useEffect(() => {
 
             ⚠️ Notice: Qurancast has not issued any cryptocurrency tokens to date.<br /><br />
 
-            <b>Raised funds will help in:</b>{' '} <br />1. App Development <br />
+            <b>This campaign will help in:</b>{' '} <br />1. App Development <br />
             2. App Maintenance<br />
             3. App Marketing<br />
-            4. Sponsoring free Quran Classes <br />
-            6. Rewards for Content Viewers, Content Creators and Content Moderators<br /><br />
+            4. Rewards for Content Viewers, Content Creators and Content Moderators<br /><br />
             
-            We plan to raise these funds in 3 Tiers, i.e.<br /><br />
+            We plan to run this campaign in 4 Tiers, i.e.<br /><br />
 
             {" "}<code className={styles.code}>Founder&apos;s Club - In Progress:</code>
-            1,400,000 Thanks Passes at $0.714 to raise $1M USDC.<br />
+            500,000 Thanks Passes generated at $0.70.<br />
             <br />
             { /* Planned message to be part of each transaction too "Thank you for believing! Your Ajar is secured! May your participation blossom into a future filled with worldly rewards." */}
             {" "}<code className={styles.codeDisabled}>Early Adopter Club:</code>
-            1,680,000 Thanks Passes at $1.191 to raise $2M USDC.<br />
+            1,000,000 Thanks Passes generated at $0.90.<br />
             <br />
             {" "}<code className={styles.codeDisabled}>Genesis Club:</code>
-            3,500,000 Thanks Passes at $1.275 to raise $5M USDC.<br />
+            1,500,000 Thanks Passes generated at $1.10.<br />
+            <br />
+            {" "}<code className={styles.codeDisabled}>Pioneer Club:</code>
+            3,000,000 Thanks Passes generated at $1.40.<br />
           </p>
 
           {/* Trying to add Tabs here */}
@@ -334,7 +336,7 @@ useEffect(() => {
             <div className={styles.cardText}>
               <h2 className={styles.gradientText2}>Mint on Optimism ➜</h2>
               <p style={{ fontSize: "14px" }}>Founder&#39;s Club Tier-1: Optimism</p>
-              <p><b> Founder&#39;s Club OP Thanks Passes: 350,000 </b></p>
+              <p><b> Founder&#39;s Club Thanks Passes: 500,000 </b></p>
               <p>Total Passes Minted on Optimism: {tokenSupplyOP?.displayValue} {tokenSupplyOP?.symbol}</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
               <div className="progress-container">
@@ -400,8 +402,8 @@ useEffect(() => {
             )}
             <div className={styles.cardText}>
               <h2 className={styles.gradientText1}>Mint on Arbitrum ➜</h2>
-              <p style={{ fontSize: "14px" }}>Founder&#39;s Club Tier-2: Arbitrum</p>
-              <p><b> Founder&#39;s Club ARB Thanks Passes: 350,000 </b></p>
+              <p style={{ fontSize: "14px" }}>Early Adopter Club Tier-2: Arbitrum</p>
+              <p><b> Early Adopter Thanks Passes: 1,000,000 </b></p>
               {/* <p>Total Passes Minted on Arbitrum: {tokenSupplyARB?.displayValue} {tokenSupplyARB?.symbol}</p> */}
               <p>Total Passes Minted on Arbitrum: 0</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
@@ -440,7 +442,7 @@ useEffect(() => {
                 ) : (
                   <>
                     Mint {amountARB} {tokenBalanceARB?.symbol} <br />
-                    for {(amountARB * 0.714).toFixed(4)} USDC
+                    for {(amountARB * 0.9).toFixed(4)} USDC
                   </>
                 )}
               </button>
@@ -467,10 +469,10 @@ useEffect(() => {
             )}
             <div className={styles.cardText}>
               <h2 className={styles.gradientText3}>Mint on Base ➜</h2>
-              <p style={{ fontSize: "14px" }}>Founder&#39;s Club Tier-3: Base</p>
-              <p><b> Founder&#39;s Club BASE Thanks Passes: 350,000 </b></p>
+              <p style={{ fontSize: "14px" }}>Genesis Club Tier-3: Base</p>
+              <p><b> Genesis Club Thanks Passes: 1,500,000 </b></p>
               {/* <p>Total Passes Minted on Base: {tokenSupplyBASE?.displayValue} {tokenSupplyBASE?.symbol}</p> */}
-              <p>Total Passes Minted on Arbitrum: 0</p>
+              <p>Total Passes Minted on Base: 0</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
               <div className="progress-container">
                 <div
@@ -500,7 +502,7 @@ useEffect(() => {
                 }
                 disabled={isLoadingBASE || chainId !== 0} //also checking here if selected network is base or not? or if transaction loading, then making the button disabled.
               >Mint {amountBASE} {tokenBalanceBASE?.symbol}<br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
-                for {(amountBASE * 0.00238).toFixed(4)} USDC
+                for {(amountBASE * 1.1).toFixed(4)} USDC
               </button>
             </div>
           </div>
@@ -525,8 +527,8 @@ useEffect(() => {
             )}
             <div className={styles.cardText}>
               <h2 className={styles.gradientText3}>Mint on Binance Smart Chain ➜</h2>
-              <p style={{ fontSize: "14px" }}>Founder&#39;s Club Tier-4: BSC</p>
-              <p><b> Founder&#39;s Club BSC Thanks Passes: 350,000 </b></p>
+              <p style={{ fontSize: "14px" }}>Pioneer Club Tier-4: BSC</p>
+              <p><b> Pioneer Club Thanks Passes: 3,000,000 </b></p>
               {/* <p>Total Passes Minted on BSC: {tokenSupplyBSC?.displayValue} {tokenSupplyBSC?.symbol}</p> */}
               <p>Total Passes Minted on BSC: 0</p>
               {/*Trying to show a nice loading percenatge bar to show how much tokens have been sold*/}
@@ -558,7 +560,7 @@ useEffect(() => {
                 }
                 disabled={isLoadingBSC || chainId !== 0} //also checking here if selected network is bnb or not? or if transaction loading, then making the button disabled.
               >Mint {amountBSC} {tokenBalanceBSC?.symbol}<br /> {/*writing below the USDC total amount based on 1st Tier Price per token which is 0.00238 */}
-                for {(amountBSC * 0.00238).toFixed(4)} USDC
+                for {(amountBSC * 1.4).toFixed(4)} USDC
               </button>
             </div>
           </div>
@@ -603,7 +605,7 @@ useEffect(() => {
                 <ul>
                   <li>You have to connect your web3 wallet, e.g. Metamask etc, soon we will also add option to use your Social Media accounts to connect and participate.</li>
                   <li>After your web3 wallet is connected, you need to select the chain where the minting is Live, i.e. Optimism, Arbitrum, Base and BSC.</li>
-                  <li>As we are rasing funds in USDC, if you don&#39;t have any USDC tokens in your wallet, then you first need to either convert your other tokens to USDC or move USDC from another account to the current wallet.</li>
+                  <li>If you don&#39;t have any USDC tokens in your wallet, then you first need to either convert your other tokens to USDC or move USDC from another account to the current wallet.</li>
                   <li>Once you have USDC tokens, you can select any number of Passes and click the mint button.</li>
                   <li>Once the transaction is confirmed, you will be shown the smart contract of the Pass, you will need to add that into your wallet in order to view the minted passes in your wallet.</li>
                 </ul>
